@@ -10,7 +10,7 @@
 #' @param login_node
 #' @param rsa_keyfile
 #' @param rsa_passphrase 
-#' @return 
+#' @return Returns an object created by ssh::ssh_connect.
 #' @export
 #' @importFrom ssh ssh_connect
 #' 
