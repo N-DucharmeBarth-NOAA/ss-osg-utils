@@ -3,6 +3,7 @@
 #'
 #' Please see ?help for osg_connect and ssh::ssh_connect for more information.
 #' 
+#' @param session
 #' @param unix_name
 #' @param login_node
 #' @param rsa_keyfile
@@ -23,11 +24,17 @@
 # Copyright (C) 2022  Nicholas Ducharme-Barth
 # You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-osg_upload_ss_dir = function(unix_name,login_node,rsa_keyfile=NULL,rsa_passphrase=NULL,local_dir_path,local_dir_names=NULL,remote_dir_path,files_to_upload,verbose=TRUE)
+osg_upload_ss_dir = function(session=NULL,unix_name,login_node,rsa_keyfile=NULL,rsa_passphrase=NULL,local_dir_path,local_dir_names=NULL,remote_dir_path,files_to_upload,verbose=TRUE)
 {
 	A = proc.time()
 	# connect to osg
+	if(is.null(session))
+	{
 		session = osg_connect(unix_name,login_node,rsa_keyfile,rsa_passphrase)
+		osg_disconnect = TRUE
+	} else {
+		osg_disconnect = FALSE
+	}
 	
 	# make remote directory
 		ssh::ssh_exec_wait(session,paste0("mkdir -p ",remote_dir_path))
@@ -61,7 +68,10 @@ osg_upload_ss_dir = function(unix_name,login_node,rsa_keyfile=NULL,rsa_passphras
 	}
 
 	# close session
+	if(osg_disconnect)
+	{
 		ssh::ssh_disconnect(session)
+	}
 
 	B = proc.time()
 	if(verbose)
