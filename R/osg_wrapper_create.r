@@ -21,7 +21,7 @@
 #' 
 
 # Nicholas Ducharme-Barth
-# August 19, 2022
+# August 22, 2022
 # Copyright (C) 2022  Nicholas Ducharme-Barth
 # You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
