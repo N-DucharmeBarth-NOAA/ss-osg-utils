@@ -12,6 +12,8 @@
 #' @param local_dir_names
 #' @param remote_dir_path
 #' @param files_to_upload
+#' @param target_dir_path
+#' @param target_dir_txt_name
 #' @param verbose
 #' @export
 #' @importFrom ssh ssh_exec_wait
@@ -24,7 +26,18 @@
 # Copyright (C) 2022  Nicholas Ducharme-Barth
 # You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-osg_upload_ss_dir = function(session=NULL,unix_name,login_node,rsa_keyfile=NULL,rsa_passphrase=NULL,local_dir_path,local_dir_names=NULL,remote_dir_path,files_to_upload,verbose=TRUE)
+osg_upload_ss_dir = function(session=NULL,
+	unix_name,
+	login_node,
+	rsa_keyfile=NULL,
+	rsa_passphrase=NULL,
+	local_dir_path,
+	local_dir_names=NULL,
+	remote_dir_path,
+	files_to_upload,
+	target_dir_path, 
+	target_dir_txt_name,
+	verbose=TRUE)
 {
 	A = proc.time()
 	# connect to osg
@@ -66,6 +79,44 @@ osg_upload_ss_dir = function(session=NULL,unix_name,login_node,rsa_keyfile=NULL,
 		# clean-up local
 			shell(paste0("powershell cd ",paste0(local_dir_path,local_dir_names[i]),"; rm Start.tar.gz"))		
 	}
+
+	# add txt file with dir information
+		# sanitize target_dir_path
+			target_dir_path = gsub("\\","/",target_dir_path,fixed=TRUE)
+			if(substr(target_dir_path, nchar(target_dir_path), nchar(target_dir_path))!="/")
+			{
+				target_dir_path = paste0(target_dir_path,"/")
+			}
+
+			dir_status = strsplit(rawToChar(ssh::ssh_exec_internal(session,paste0('[ -d "',target_dir_path,'" ]&&echo "exists"||echo "not exists"'))$stdout),"\\n")[[1]]
+			if(dir_status!="exists")
+			{
+				ssh::ssh_exec_wait(session,paste0("mkdir -p ",target_dir_path))
+			}
+
+			local_shell_path = tempdir()
+			local_shell_path = gsub("\\","/",local_shell_path,fixed=TRUE)
+			if(substr(local_shell_path, nchar(local_shell_path), nchar(local_shell_path))!="/")
+			{
+				local_shell_path = paste0(local_shell_path,"/")
+			}
+
+			sink_target = paste0(remote_dir_path,local_dir_names)
+			for(i in 1:length(sink_target))
+			{
+				if(substr(sink_target[i], nchar(sink_target[i]), nchar(sink_target[i]))!="/")
+				{
+					sink_target[i] = paste0(sink_target[i],"/")
+				}
+			}
+			sink_target = gsub("\\","/",sink_target,fixed=TRUE)
+			writeLines(sink_target,con=paste0(local_shell_path,target_dir_txt_name))
+		    ssh::scp_upload(session,files=paste0(local_shell_path,target_dir_txt_name),to=paste0("/home/",unix_name,"/",target_dir_path))
+
+			ssh::ssh_exec_wait(session,command=paste0('dos2unix ',paste0(target_dir_path,target_dir_txt_name)))
+			ssh::ssh_exec_wait(session,command=paste0('chmod 777 ',paste0(target_dir_path,target_dir_txt_name)))
+
+			file.remove(paste0(local_shell_path,target_dir_txt_name))
 
 	# close session
 	if(osg_disconnect)

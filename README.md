@@ -7,10 +7,12 @@ Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-sy
 - [x] base code: osg_multi-copy
 - [x] base code: osg_upload_ss_dir
 - [x] base code: osg_wrapper_create
-- [ ] base code: osg_condor_submit_create
+- [x] base code: osg_condor_submit_create
 - [ ] base code: osg_r_script_create
 - [ ] base code: osg_execute
 - [ ] base code: osg_clean
 - [ ] base code: osg_download (and optionally remove files from osg via osg_clean)
 - [ ] osg_upload_ss_dir: create target directory text file
 - [ ] osg_wrapper_create: option to suppress log files and/or not download log files
+- [ ] Documentation (roxygen2)
+- [ ] Make package: description, license, git-hub actions, github-pages, NOAA template

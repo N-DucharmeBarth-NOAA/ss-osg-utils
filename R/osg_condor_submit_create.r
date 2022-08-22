@@ -1,5 +1,5 @@
 
-#' This function writes a bash shell wrapper script to be executed within each specified directory 
+#' This function writes a condor_submit script to be executed on the open science grid. 
 #'
 #' This function saves a copy of locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely 
 #' 
@@ -11,13 +11,23 @@
 #' @param local_shell_path
 #' @param remote_shell_path
 #' @param file_name
-#' @param wrapper_actions
+#' @param c_executable
+#' @param c_input_files
+#' @param c_output_files
+#' @param c_project
+#' @param c_memory
+#' @param c_disk
+#' @param c_target_dir_path
+#' @param c_singularity
+#' @param c_ss_path
+#' @param c_r_libs_path
 #' @param overwrite
 #' @param verbose
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal
 #' @importFrom ssh ssh_disconnect
+#' @importFrom ssh scp_upload
 #' 
 
 # Nicholas Ducharme-Barth
@@ -25,15 +35,22 @@
 # Copyright (C) 2022  Nicholas Ducharme-Barth
 # You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-osg_wrapper_create = function(session=NULL,
+osg_condor_submit_create = function(session=NULL,
 							unix_name,
 							login_node,
 							rsa_keyfile=NULL,
 							rsa_passphrase=NULL,
 							local_shell_path = NULL,
-							remote_shell_path = "scripts/bash/",
-							file_name = "wrapper.sh",
-							wrapper_actions = NULL,
+							remote_shell_path = "scripts/condor_submit/",
+							file_name = "condor.sub",
+							c_executable="scripts/bash/wrapper.sh",
+							c_input_files=c("Start.tar.gz"),
+							c_output_files=c("End.tar.gz"),
+							c_project=NULL,
+							c_memory="2GB",
+							c_disk="2GB",
+							c_target_dir_path=NULL,
+							c_singularity=NULL,
 							overwrite = TRUE,
 							verbose = TRUE)
 {
@@ -75,121 +92,78 @@ osg_wrapper_create = function(session=NULL,
 			{
 				dir.create(local_shell_path,recursive=TRUE)
 			}
-		# define shell script
-			script_vec = c('#!/bin/bash',
-							'',
-							'pwd',
-							'ls -l',
-							'echo $PATH',
-							'mkdir -p working/',
-							'',
-							'# Move files',
-							'mv Start.tar.gz working/',
-							'',
-							'if [ -f "R-packages.tar.gz" ]',
-							'then',
-							'  mv R-packages.tar.gz working/',
-							'fi',
-							'',
-							'# if ss executable exists, set permissions',
-							'if [ -f "ss_linux" ]',
-							'then',
-							'  mv ss_linux working/',
-							'  chmod 777 working/ss_linux',
-							'fi',
-							'',
-							'cd working/',
-							'',	
-							'# Upack everything from initial tar file',
-							'tar -xzf Start.tar.gz',
-							'',
-							'# Upack everything from the R-packages.tar.gz file if it exists',
-							'if [ -f "R-packages.tar.gz" ]',
-							'then',
-							'  tar -xzf R-packages.tar.gz',
-							'fi',
-							'',
-							'start=`date +%s`',
-							'end=`date +%s`',
-							'runtime=$((end-start))',
-							'echo $runtime',
-							'',
-							'if [ -f "runtime.txt" ]',
-							'then',
-							'  touch runtime.txt',
-							'  echo $runtime >> runtime.txt',
-							'else',
-							'  echo $runtime > runtime.txt',
-							'fi',
-							'',
-							'# Clean-up',
-							'if [ -f "R-packages.tar.gz" ]',
-							'then',
-							'  rm R-packages.tar.gz',
-							'  rm -r R-packages',
-							'fi',
-							'',
-							'if [ -f "ss_linux" ]',
-							'then',
-							'  rm ss_linux',
-							'fi',
-							'rm Start.tar.gz',
-							'',		
-							'# Create empty file so that it does not mess up when repacking tar',
-							'touch End.tar.gz',
-							"tar -czf End.tar.gz --exclude='End.tar.gz' --exclude='*.log' .",
-							'cd ..',
-							'mv working/End.tar.gz .',
-							'')
-							# "tar -czf End.tar.gz --exclude='End.tar.gz' --exclude='Start.tar.gz' --exclude='*.log' --exclude='.*' --exclude='condor*' --exclude='_condor*' --exclude='local-tmp/' --exclude='.gwms.d/' --exclude='.gwms_aux/' --exclude='.condor_creds/' .",
 
-		# add wrapper_actions
-			if(is.null(wrapper_actions))
+		# check submit script args
+			if(is.null(c_singularity))
 			{
-				wrapper_actions = c("00_run_ss")
+				c_singularity = ""
+			} else {
+				valid_singularity = c("r:3.5.0","r:4.0.2")
+
+				if(length(c_singularity[which(is.na(match(c_singularity,valid_singularity)))])>0)
+				{
+					stop(paste0("c_singularity not a valid choice. Redefine as one of the following: ",paste0(valid_singularity,collapse=", ")))
+				} else {
+					c_singularity = paste0('+SingularityImage = "/cvmfs/singularity.opensciencegrid.org/opensciencegrid/osgvo-',c_singularity,'"')
+				}
+			}
+			if(is.null(c_project))
+			{
+				stop("OSG project must be defined.")
+			}
+			if(is.null(c_target_dir_path))
+			{
+				stop("target_dir_path must be defined.")
+			} else {
+				c_target_dir_path = gsub("\\","/",c_target_dir_path,fixed=TRUE)
 			}
 
-			# sanitize wrapper actions
-				valid_actions = c("00_run_ss")
-
-				if(length(wrapper_actions[which(is.na(match(wrapper_actions,valid_actions)))])>0)
-				{
-					print("Invalid actions included in wrapper actions:")
-					print(paste0(wrapper_actions[which(is.na(match(wrapper_actions,valid_actions)))],collapse=", "))
-					print("These have been removed.")
-					wrapper_actions = wrapper_actions[which(!is.na(match(wrapper_actions,valid_actions)))]
-				}
-				if(length(wrapper_actions)==0){
-					print("All actions are invalid. These are the only valid actions: ")
-					print(paste0(valid_actions,collapse=", "))
-					stop("Please redefine wrapper_actions to include valid actions.")
-				}
-
-				wrapper_actions = sort(unique(wrapper_actions))
-				for(i in 1:length(wrapper_actions))
-				{
-					if(wrapper_actions[i] == "00_run_ss")
-					{
-						pointer = grep("end=`date +%s`",script_vec,fixed=TRUE)
-						script_vec = c(script_vec[1:(pointer-1)],
-									 "./ss_linux",
-									 script_vec[pointer:length(script_vec)])
-					}
-				}
-
-				wrapper_actions = c(paste0(file_name," has the following actions: "),wrapper_actions)
-
+		# define submit script			
+			submit_vec = c("universe = vanilla",
+						  	"",
+						  	"# Define initial directory",
+						  	"initial_dir = $(target_dir)",
+							"# Define executable",
+							paste0("executable = ",c_executable),
+							"",
+							"# Error logging",
+							"log = job_$(Cluster)_$(Process).log",
+							"error = job_$(Cluster)_$(Process).err",
+							"output = job_$(Cluster)_$(Process).out",
+							"",
+							"# Define singularity",
+							c_singularity,
+							"",
+							"# Define resources",
+							"request_cpus = 1",
+							paste0("request_memory = ",c_memory),
+							paste0("request_disk = ",c_disk),
+							"",
+							"# Define project",
+							paste0('+ProjectName = "',c_project,'"'),
+							"",
+							"# Define input files",
+							"should_transfer_files = YES",
+							paste0("transfer_input_files = ",paste0(c_input_files,collapse = ", ")),
+							"",
+							"# Define output files",
+							"when_to_transfer_output = ON_EXIT_OR_EVICT",
+							paste0("transfer_output_files = ",paste0(c_output_files,collapse = ", ")),
+							"",
+							"# Define queue",
+							paste0("queue target_dir from ",c_target_dir_path))
+							
 		# check if shell script exists, if not then sink
 			if(!file.exists(paste0(local_shell_path,file_name)))
 			{
-				writeLines(script_vec,con=paste0(local_shell_path,file_name))
+				writeLines(submit_vec,con=paste0(local_shell_path,file_name))
 				local_action_time = Sys.time()
 				local_action = c(paste0(file_name," did not exist at local location: "),
 								local_shell_path,
 								paste0(file_name," was written at local location at : "),
 								as.character(local_action_time))
 			} else if(file.exists(paste0(local_shell_path,file_name)) & overwrite) {
-				writeLines(script_vec,con=paste0(local_shell_path,file_name))
+				writeLines(submit_vec,con=paste0(local_shell_path,file_name))
 				local_action_time = Sys.time()
 				local_action = c(paste0(file_name," already exists at local location: "),
 								local_shell_path,
@@ -254,11 +228,10 @@ osg_wrapper_create = function(session=NULL,
 	if(verbose)
 	{
 		# print actions
-			print(wrapper_actions)
 			print(local_action)
 			print(remote_action)
 			time = round((B-A)[3]/60,digits=2)
-			print(paste0(" Actions taken in ",time," minutes."))
+			print(paste0("condor_submit script created in ",time," minutes."))
 	}
-	return(0)
+	return(0)	
 }
