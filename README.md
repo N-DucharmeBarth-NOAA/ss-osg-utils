@@ -9,8 +9,8 @@ Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-sy
 - [x] base code: osg_wrapper_create
 - [x] base code: osg_condor_submit_create
 - [ ] base code: osg_r_script_create
-- [ ] base code: osg_execute
-- [ ] base code: osg_monitor
+- [x] base code: osg_execute
+- [x] base code: osg_monitor
 - [ ] base code: osg_clean (option to just remove logs)
 - [ ] base code: osg_download (download end.tar.gz, optionally download logs, and optionally remove files from osg via osg_clean after downloading)
 - [ ] osg_upload_ss_dir: create target directory text file
