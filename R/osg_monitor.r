@@ -9,7 +9,6 @@
 #' @param rsa_passphrase
 #' @return
 #' @export
-#' @importFrom ssh ssh_connect
 #' @importFrom ssh ssh_exec_internal
 #' 
 

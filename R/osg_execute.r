@@ -11,7 +11,6 @@
 #' @param condor_submit_name 
 #' @return
 #' @export
-#' @importFrom ssh ssh_connect
 #' @importFrom ssh ssh_exec_internal
 #' 
 
