@@ -18,3 +18,4 @@ Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-sy
 - [ ] osg_wrapper_create: add options for running diagnostics (ASPM, retrospectives, R0 profile, jitter) via R scripts
 - [ ] Documentation (roxygen2)
 - [ ] Make package: description, license, git-hub actions, github-pages, NOAA template
+- [ ] Add vignettes: setting up OSG environment, launching/retrieving a job array, running diagnostics across a job array
