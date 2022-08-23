@@ -12,7 +12,7 @@ Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-sy
 - [x] base code: osg_execute
 - [x] base code: osg_monitor
 - [x] base code: osg_clean (option to just remove logs)
-- [ ] base code: osg_download (download end.tar.gz, optionally download logs, and optionally remove files from osg via osg_clean after downloading)
+- [x] base code: osg_download_ss_dir (download end.tar.gz, optionally download logs, and optionally remove files from osg via osg_clean after downloading)
 - [x] osg_upload_ss_dir: create target directory text file
 - [ ] osg_wrapper_create: option to suppress log files
 - [ ] osg_wrapper_create: add options for running diagnostics (ASPM, retrospectives, R0 profile, jitter) via R scripts
