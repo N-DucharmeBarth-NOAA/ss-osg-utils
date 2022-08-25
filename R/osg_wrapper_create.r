@@ -89,6 +89,15 @@ osg_wrapper_create = function(session=NULL,
 							'if [ -f "R-packages.tar.gz" ]',
 							'then',
 							'  mv R-packages.tar.gz working/',
+							'  # set TMPDIR variable',
+							'  mkdir rtmp',
+							'  export TMPDIR=$_CONDOR_SCRATCH_DIR/rtmp',
+							'fi',
+							'',
+							'rcount=`ls -1 *.r 2>/dev/null | wc -l`',
+							'if [ $rcount != 0 ]',
+							'then',
+							'  mv *.r working/',
 							'fi',
 							'',
 							'# if ss executable exists, set permissions',
@@ -107,6 +116,7 @@ osg_wrapper_create = function(session=NULL,
 							'if [ -f "R-packages.tar.gz" ]',
 							'then',
 							'  tar -xzf R-packages.tar.gz',
+							'  export R_LIBS="$PWD/R-packages"',
 							'fi',
 							'',
 							'start=`date +%s`',
@@ -137,7 +147,7 @@ osg_wrapper_create = function(session=NULL,
 							'',		
 							'# Create empty file so that it does not mess up when repacking tar',
 							'touch End.tar.gz',
-							"tar -czf End.tar.gz --exclude='End.tar.gz' --exclude='*.log' .",
+							"tar -czf End.tar.gz --exclude='End.tar.gz' --exclude='*.log' --exclude='*.r' --exclude='rtmp/' .",
 							'cd ..',
 							'mv working/End.tar.gz .',
 							'')
@@ -150,7 +160,7 @@ osg_wrapper_create = function(session=NULL,
 			}
 
 			# sanitize wrapper actions
-				valid_actions = c("00_run_ss")
+				valid_actions = c("00_run_ss","01_run_retro")
 
 				if(length(wrapper_actions[which(is.na(match(wrapper_actions,valid_actions)))])>0)
 				{
@@ -173,6 +183,11 @@ osg_wrapper_create = function(session=NULL,
 						pointer = grep("end=`date +%s`",script_vec,fixed=TRUE)
 						script_vec = c(script_vec[1:(pointer-1)],
 									 "./ss_linux",
+									 script_vec[pointer:length(script_vec)])
+					} else {
+						pointer = grep("end=`date +%s`",script_vec,fixed=TRUE)
+						script_vec = c(script_vec[1:(pointer-1)],
+									 paste0("Rscript ",wrapper_actions[i],".r"),
 									 script_vec[pointer:length(script_vec)])
 					}
 				}

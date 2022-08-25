@@ -98,7 +98,7 @@ osg_condor_submit_create = function(session=NULL,
 			{
 				c_singularity = ""
 			} else {
-				valid_singularity = c("r:3.5.0","r:4.0.2")
+				valid_singularity = c('r:3.5.0','r:4.0.2')
 
 				if(length(c_singularity[which(is.na(match(c_singularity,valid_singularity)))])>0)
 				{

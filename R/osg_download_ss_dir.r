@@ -9,7 +9,7 @@
 #' @param rsa_passphrase
 #' @param remote_dir_stem
 #' @param remote_dirs
-#' @param local_dir_stem
+#' @param download_dir_stem
 #' @param files_to_download
 #' @param untar_local
 #' @param clean_remote
@@ -33,7 +33,7 @@ osg_download_ss_dir = function(session = NULL,
 					   rsa_passphrase=NULL,
 					   remote_dir_stem,
 					   remote_dirs,
-					   local_dir_stem,
+					   download_dir_stem,
 					   files_to_download=c("End.tar.gz"),
 					   untar_local=TRUE,
 					   clean_remote=TRUE,
@@ -62,30 +62,33 @@ osg_download_ss_dir = function(session = NULL,
 				}
 		}
 
-	# sanitize local_dir_stem
-		local_dir_stem = gsub("\\","/",local_dir_stem,fixed=TRUE)
-		if(substr(local_dir_stem, nchar(local_dir_stem), nchar(local_dir_stem))!="/")
+	# sanitize download_dir_stem
+		download_dir_stem = gsub("\\","/",download_dir_stem,fixed=TRUE)
+		if(substr(download_dir_stem, nchar(download_dir_stem), nchar(download_dir_stem))!="/")
 		{
-			local_dir_stem = paste0(local_dir_stem,"/")
+			download_dir_stem = paste0(download_dir_stem,"/")
 		}
 
 	# prepare local directories to receive downloads
-	if(!dir.exists(local_dir_stem))
+	if(!dir.exists(download_dir_stem))
 	{
-		dir.create(local_dir_stem,recursive=TRUE)
+		dir.create(download_dir_stem,recursive=TRUE)
 	}
 
 	# iterate over directories
 	for(i in 1:length(remote_dirs))
 	{
 		# create local directory if needed
-		if(!dir.exists(paste0(local_dir_stem,remote_dirs[i])))
+		if(!dir.exists(paste0(download_dir_stem,remote_dirs[i])))
 		{
-			dir.create(paste0(local_dir_stem,remote_dirs[i]),recursive=TRUE)
+			dir.create(paste0(download_dir_stem,remote_dirs[i]),recursive=TRUE)
 		}
 
 		# download
-		ssh::scp_download(session, files=paste0(remote_dir_stem,remote_dirs[i],files_to_download), to = paste0(local_dir_stem,remote_dirs[i]), verbose = verbose)
+		for(j in 1:length(files_to_download))
+		{
+			ssh::scp_download(session, files=paste0(remote_dir_stem,remote_dirs[i],files_to_download[j]), to = paste0(download_dir_stem,remote_dirs[i]), verbose = verbose)
+		}
 
 		# un-tar
 		if(untar_local)
@@ -93,8 +96,8 @@ osg_download_ss_dir = function(session = NULL,
 			tar_files = files_to_download[grep("tar.gz",files_to_download,fixed=TRUE)]
 			for(j in 1:length(tar_files))
 			{
-				shell(paste0("powershell cd ",paste0(local_dir_stem,remote_dirs[i]),";tar -xzf ",tar_files[j]))
-				file.remove(paste0(local_dir_stem,remote_dirs[i],tar_files[j]))
+				shell(paste0("powershell cd ",paste0(download_dir_stem,remote_dirs[i]),";tar -xzf ",tar_files[j]))
+				file.remove(paste0(download_dir_stem,remote_dirs[i],tar_files[j]))
 			}
 		}
 

@@ -81,14 +81,28 @@ osg_r_create = function(session=NULL,
 				stop("Please specify which diagnostic_type you wish to create an R script for.")
 			} 
 		# define r script
-			@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			if(diagnostic_type == "01_run_retro")
 			{
 				file_name = paste0(diagnostic_type,".r")
-				r_vec
+				r_vec = c('dir_here = getwd()',
+					      'print(dir_here)',
+					      'library(r4ss)',
+					      'run_retro = retro(dir = dir_here,exe = "ss_linux")')
+				# r_vec = c('dir_here = getwd()',
+				# 	      'print(dir_here)',
+				# 	      'library(r4ss)',
+				# 	      'file.copy("ss_linux","ss",overwrite=TRUE)',
+				# 	      'run_retro = retro(dir = dir_here,exe = "ss")',
+				# 	      'file.remove("ss")')
+				# r_vec = c('dir_here = getwd()',
+				# 	      'print(dir_here)',
+				# 	      'library(r4ss,verbose=TRUE)',
+				# 	      'file.copy("ss_linux","ss",overwrite=TRUE)',
+				# 	      'run_retro = retro(dir = dir_here,exe = "ss",verbose=TRUE)',
+				# 	      'file.remove("ss")',
+				# 	      'list.files(recursive=TRUE)')
 			}
 			
-
 		# check if shell script exists, if not then sink
 			if(!file.exists(paste0(local_shell_path,file_name)))
 			{
