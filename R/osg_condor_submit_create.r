@@ -118,7 +118,8 @@ osg_condor_submit_create = function(session=NULL,
 				c_target_dir_path = gsub("\\","/",c_target_dir_path,fixed=TRUE)
 			}
 
-		# define submit script			
+		# define submit script
+		# should add 'max_idle = 2000' at some point			
 			submit_vec = c("universe = vanilla",
 						  	"",
 						  	"# Define initial directory",
