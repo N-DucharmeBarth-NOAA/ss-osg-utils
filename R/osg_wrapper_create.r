@@ -160,7 +160,7 @@ osg_wrapper_create = function(session=NULL,
 			}
 
 			# sanitize wrapper actions
-				valid_actions = c("00_run_ss","01_run_retro")
+				valid_actions = c("00_run_ss","01_run_retro","02_run_R0profile")
 
 				if(length(wrapper_actions[which(is.na(match(wrapper_actions,valid_actions)))])>0)
 				{
