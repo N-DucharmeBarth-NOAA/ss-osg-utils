@@ -106,17 +106,19 @@ osg_r_create = function(session=NULL,
                                'SS_writestarter(tmp_starter, dir = dir_here, file = "starter.ss", overwrite = TRUE, verbose = FALSE, warn = FALSE)',
                                'rm(list=c("tmp_starter"))',
                                'FileList=list.files()',
-                               'file.copy(paste0(dir_here,FileList),dir_run_R0prof_up,overwrite=TRUE)',
-                               'file.copy(paste0(dir_here,FileList),dir_run_R0prof_down,overwrite=TRUE)',
-                               'tmp_par = SS_readpar_3.30(parfile=paste0(dir_here,"ss.par"), datsource=paste0(dir_here,"data.dat"), ctlsource=paste0(dir_here,"control.ss"), verbose = FALSE)',
+                               'file.copy(paste0(dir_here,"/",FileList),dir_run_R0prof_up,overwrite=TRUE)',
+                               'file.copy(paste0(dir_here,"/",FileList),dir_run_R0prof_down,overwrite=TRUE)',
+                               'tmp_par = SS_readpar_3.30(parfile=paste0(dir_here,"/ss.par"), datsource=paste0(dir_here,"/data.dat"), ctlsource=paste0(dir_here,"/control.ss"), verbose = FALSE)',
                                'r0_original = tmp_par$SR_parms$ESTIM[1]',
                                'r0_up_vec = seq(from=r0_original,to=r0_original+2,by=0.1)',
                                'r0_down_vec = seq(from=r0_original,to=r0_original-2,by=-0.1)',
                                'rm(list=c("tmp_par"))',
-                               'profile_up = profile(dir_run_R0prof_up,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_up_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = TRUE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
+                               'profile_up = profile(dir_run_R0prof_up,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_up_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = FALSE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
                                'write.csv(profile_up,file="profile_up.csv")',
-                               'profile_down = profile(dir_run_R0prof_down,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_down_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = TRUE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
-                               'write.csv(profile_down,file="profile_down.csv")')
+                               'profile_down = profile(dir_run_R0prof_down,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_down_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = FALSE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
+                               'write.csv(profile_down,file="profile_down.csv")',
+                               'unlink(dir_run_R0prof_up, recursive=TRUE)',
+                               'unlink(dir_run_R0prof_down, recursive=TRUE)')
 			}
 			
 		# check if shell script exists, if not then sink
