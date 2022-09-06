@@ -2,6 +2,10 @@
 
 Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) (SS) models on the [OpenScienceGrid](https://osg-htc.org/) [HTCondor](https://htcondor.org/) network.
 
+### Warning
+
+Package is in active development. Code base may change without warning prior to first stable release.
+
 ### Base functionality development list
 - [x] base code: osg_connect
 - [x] base code: osg_multi-copy
