@@ -12,9 +12,6 @@ osg_monitor(
   rsa_passphrase = NULL
 )
 }
-\value{
-
-}
 \description{
 It is a wrapper around the condor_q function
 }

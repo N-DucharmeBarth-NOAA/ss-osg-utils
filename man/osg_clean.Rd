@@ -16,9 +16,6 @@ osg_clean(
   verbose = TRUE
 )
 }
-\value{
-
-}
 \description{
 This function cleans directories of given files and sub-directories
 }

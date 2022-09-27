@@ -17,9 +17,6 @@ osg_execute(
 \arguments{
 \item{condor_submit_name}{}
 }
-\value{
-
-}
 \description{
 It is a wrapper around the condor_submit function
 }

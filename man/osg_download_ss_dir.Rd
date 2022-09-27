@@ -20,9 +20,6 @@ osg_download_ss_dir(
   verbose = TRUE
 )
 }
-\value{
-
-}
 \description{
 Options exist for cleaning the local and remote directory after download
 }
