@@ -39,7 +39,7 @@ remotes::install_github("N-DucharmeBarth-NOAA/ss-osg-utils")
 - [ ] osg_wrapper_create: add options for running diagnostics (ASPM, retrospectives, R0 profile, jitter) via R scripts
 - [ ] osg_r_script_create: add options for user to pass their own R script
 - [ ] Documentation (roxygen2)
-- [ ] Make package: description, license, git-hub actions, github-pages, NOAA template
+- [x] Make package: description, license, git-hub actions, github-pages, NOAA template
 - [ ] Add vignettes: setting up OSG environment
 - [ ] Add vignettes: launching/retrieving a job array
 - [ ] Add vignettes: running diagnostics across a job array
