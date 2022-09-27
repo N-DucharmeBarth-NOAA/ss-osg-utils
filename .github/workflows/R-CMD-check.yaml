@@ -9,8 +9,16 @@ on:
 name: R-CMD-check
 
 jobs:
-  R-CMD-check:
-    runs-on: ubuntu-latest
+R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest,   r: 'release', depends_only: TRUE}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
