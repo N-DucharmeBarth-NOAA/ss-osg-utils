@@ -13,6 +13,9 @@
 #' @param diagnostic_type
 #' @param overwrite
 #' @param verbose
+#' @param retro_n_years
+#' @param r0_maxdiff
+#' @param r0_step
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal
@@ -34,7 +37,10 @@ osg_r_create = function(session=NULL,
 							remote_shell_path = "scripts/r/",
 							diagnostic_type = NULL,
 							overwrite = TRUE,
-							verbose = TRUE)
+							verbose = TRUE,
+							retro_n_years = NULL,
+							r0_maxdiff = NULL,
+							r0_step = NULL)
 {
 	A = proc.time()
 	# connect to osg
@@ -79,7 +85,22 @@ osg_r_create = function(session=NULL,
 			if(is.null(diagnostic_type))
 			{
 				stop("Please specify which diagnostic_type you wish to create an R script for.")
-			} 
+			}
+
+		# sanitize script arguments
+			if(is.null(retro_n_years))
+			{
+				retro_n_years = 5
+			}
+			if(is.null(r0_step))
+			{
+				r0_step = 0.01
+			}
+			if(is.null(r0_maxdiff))
+			{
+				r0_maxdiff = 1
+			}
+
 		# define r script
 			if(diagnostic_type == "01_run_retro")
 			{
@@ -87,7 +108,7 @@ osg_r_create = function(session=NULL,
 				r_vec = c('dir_here = getwd()',
 					      'print(dir_here)',
 					      'library(r4ss)',
-					      'run_retro = retro(dir = dir_here,exe = "ss_linux")')
+					      paste0('run_retro = retro(dir = dir_here,years=0:-',retro_n_years,',exe = "ss_linux")'))
 			}
 			if(diagnostic_type == "02_run_R0profile")
 			{
@@ -106,12 +127,13 @@ osg_r_create = function(session=NULL,
                                'SS_writestarter(tmp_starter, dir = dir_here, file = "starter.ss", overwrite = TRUE, verbose = FALSE, warn = FALSE)',
                                'rm(list=c("tmp_starter"))',
                                'FileList=list.files()',
+							   'FileList=setdiff(FileList,c("R-packages.tar.gz","Start.tar.gz"))',
                                'file.copy(paste0(dir_here,"/",FileList),dir_run_R0prof_up,overwrite=TRUE)',
                                'file.copy(paste0(dir_here,"/",FileList),dir_run_R0prof_down,overwrite=TRUE)',
                                'tmp_par = SS_readpar_3.30(parfile=paste0(dir_here,"/ss.par"), datsource=paste0(dir_here,"/data.dat"), ctlsource=paste0(dir_here,"/control.ss"), verbose = FALSE)',
                                'r0_original = tmp_par$SR_parms$ESTIM[1]',
-                               'r0_up_vec = seq(from=r0_original,to=r0_original+1,by=0.01)',
-                               'r0_down_vec = seq(from=r0_original,to=r0_original-1,by=-0.01)',
+                               paste0('r0_up_vec = seq(from=r0_original,to=r0_original+',r0_maxdiff,',by=',r0_step,')'),
+                               paste0('r0_down_vec = seq(from=r0_original,to=r0_original-',r0_maxdiff,',by=-',r0_step,')'),
                                'rm(list=c("tmp_par"))',
                                'profile_up = profile(dir_run_R0prof_up,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_up_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = FALSE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
                                'write.csv(profile_up,file="profile_up.csv")',
@@ -119,6 +141,45 @@ osg_r_create = function(session=NULL,
                                'write.csv(profile_down,file="profile_down.csv")',
                                'unlink(dir_run_R0prof_up, recursive=TRUE)',
                                'unlink(dir_run_R0prof_down, recursive=TRUE)')
+			}
+			if(diagnostic_type == "03_run_aspm")
+			{
+				file_name = paste0(diagnostic_type,".r")
+				r_vec = c('dir_here = getwd()',
+								'print(dir_here)',
+								'library(r4ss)',
+								'FileList=list.files()',
+								'FileList=setdiff(FileList,c("R-packages.tar.gz","Start.tar.gz"))',
+								'dir_run_detrec = paste0(dir_here,"/det_rec/")',
+								'dir.create(dir_run_detrec,recursive=TRUE,showWarnings=FALSE)',
+								'file.copy(paste0(dir_here,"/",FileList),dir_run_detrec,overwrite=TRUE)',
+								'tmp_ctl = SS_readctl(file=paste0(dir_run_detrec,"control.ss_new"),datlist = paste0(dir_run_detrec,"data.dat"))',
+								'tmp_ctl$do_recdev = 0',
+								'tmp_ctl$recdev_adv = 0',
+								'SS_writectl(ctllist=tmp_ctl,outfile=paste0(dir_run_detrec,"control.ss"),overwrite = TRUE)',
+								'rm(list=c("tmp_ctl"))',
+								'run(dir = dir_run_detrec,exe = "ss_linux",verbose=FALSE)', 
+								'dir_run_aspm = paste0(dir_here,"/aspm/")',
+								'dir.create(dir_run_aspm,recursive=TRUE,showWarnings=FALSE)',
+								'file.copy(paste0(dir_here,"/",FileList),dir_run_aspm,overwrite=TRUE)',
+								'# 1) change control to fix selex par',
+								'      tmp_ctl = SS_readctl(file=paste0(dir_run_aspm,"control.ss_new"),use_datlist = TRUE,datlist = paste0(dir_run_aspm,"data.dat"))',
+								'      tmp_ctl$size_selex_parms$PHASE = -abs(tmp_ctl$size_selex_parms$PHASE)',
+								'      tmp_ctl$size_selex_parms$dev_link = 0',
+								'      tmp_ctl$age_selex_parms$PHASE = -abs(tmp_ctl$age_selex_parms$PHASE)',
+								'      tmp_ctl$age_selex_parms$dev_link = 0',
+								'# 2) change control to turn-off length comp in likelihood',
+								'      pointer = which(tmp_ctl$lambdas$like_comp == 4)',
+								'      tmp_ctl$lambdas$value[pointer] = 0',
+								'      rm(list=c("pointer"))',
+								'# 3) change control to fix rec devs at 0',
+								'      tmp_ctl$do_recdev = 0',
+								'      tmp_ctl$recdev_adv = 0',
+								'# 4) turn-off MG parms',
+								'      tmp_ctl$MG_parms$PHASE = -abs(tmp_ctl$MG_parms$PHASE)',
+								'SS_writectl(tmp_ctl,paste0(dir_run_aspm,"control.ss"), version = "3.30", overwrite = TRUE)',
+								'rm(list="tmp_ctl")',
+								'run(dir = dir_run_aspm,exe = "ss_linux",verbose=FALSE)') 
 			}
 			
 		# check if shell script exists, if not then sink

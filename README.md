@@ -18,6 +18,7 @@ Package is in active development. Code base may change without warning prior to 
 - [x] base code: osg_clean (option to just remove logs)
 - [x] base code: osg_download_ss_dir (download end.tar.gz, optionally download logs, and optionally remove files from osg via osg_clean after downloading)
 - [x] osg_upload_ss_dir: create target directory text file
+- [ ] add more flexibility to input/output args
 - [ ] osg_wrapper_create: option to suppress log files
 - [ ] osg_wrapper_create: add options for running diagnostics (ASPM, retrospectives, R0 profile, jitter) via R scripts
 - [ ] osg_r_script_create: add options for user to pass their own R script
@@ -27,3 +28,4 @@ Package is in active development. Code base may change without warning prior to 
 - [ ] Add vignettes: launching/retrieving a job array
 - [ ] Add vignettes: running diagnostics across a job array
 - [ ] Add vignettes: model ensemble example (extracting quantities and combining with MVLN)
+- [ ] Add vignettes: run with custom submit script, r script, and wrapper script
