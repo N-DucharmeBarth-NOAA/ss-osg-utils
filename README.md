@@ -45,7 +45,7 @@ remotes::install_github("N-DucharmeBarth-NOAA/ss-osg-utils")
   - [ ] osg\_r\_script\_create: add options for user to pass their own R
     script
   - [ ] Documentation (roxygen2)
-  - [ ] Make package: description, license, git-hub actions,
+  - [x] Make package: description, license, git-hub actions,
     github-pages, NOAA template
   - [ ] Add vignettes: setting up OSG environment
   - [ ] Add vignettes: launching/retrieving a job array
