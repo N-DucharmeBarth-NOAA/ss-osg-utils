@@ -1,6 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/N-DucharmeBarth-NOAA/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/N-DucharmeBarth-NOAA/ssgrid/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 ## ssgrid: Stock Sythesis - OpenScienceGrid - utilities
 
 Utility functions for running [Stock
@@ -9,18 +14,28 @@ models on the [OpenScienceGrid](https://osg-htc.org/) (OSG)
 [HTCondor](https://htcondor.org/) network.
 
 This package facilitates running Stock Synthesis models and the
-following advanced diagnostics on the OSG: - retrospective - R0
-likelihood profile - age-structured production model (ASPM) -
-deterministic recruitment model
+following advanced diagnostics on the OSG:
 
-The *ssgrid* contains functions for: - connecting to the OSG - uploading
-files to OSG - writing files to automatically set-up the execution of
-the HTcondor job - creating the HTcondor *condor\_submit* script -
-creating the bash shell script executed by the *condor\_submit* script -
-creating R scripts needed to manipulate SS files using
-[r4ss](https://github.com/r4ss/r4ss) functions in order to run advanced
-diagnostics. - submiting the HTcondor job - downloading completed model
-runs - cleaning up directories on OSG
+  - retrospective
+  - R0 likelihood profile
+  - age-structured production model (ASPM)
+  - deterministic recruitment model
+
+The *ssgrid* contains functions for:
+
+  - connecting to the OSG
+  - uploading files to OSG
+  - writing files to automatically set-up the execution of the HTcondor
+    job
+      - creating the HTcondor *condor\_submit* script
+      - creating the bash shell script executed by the *condor\_submit*
+        script
+      - creating R scripts needed to manipulate SS files using
+        [r4ss](https://github.com/r4ss/r4ss) functions in order to run
+        advanced diagnostics.
+  - submiting the HTcondor job
+  - downloading completed model runs
+  - cleaning up directories on OSG
 
 ### Warning
 
