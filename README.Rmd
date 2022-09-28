@@ -20,7 +20,7 @@ Package is in active development. Code base may change without warning prior to 
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("N-DucharmeBarth-NOAA/ss-osg-utils")
+remotes::install_github("N-DucharmeBarth-NOAA/ssgrid")
 ```
 ### Base functionality development list
 - [x] base code: osg_connect
