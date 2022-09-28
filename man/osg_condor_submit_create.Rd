@@ -65,10 +65,6 @@ osg_condor_submit_create(
 \item{overwrite}{If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.}
 
 \item{verbose}{Boolean denoting if function details should be printed.}
-
-\item{c_ss_path}{Path on OSG login node to ss executable.}
-
-\item{c_r_libs_path}{Path on OSG to portable R libraries.}
 }
 \value{
 Returns 0 on exit.

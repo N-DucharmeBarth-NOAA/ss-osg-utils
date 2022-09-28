@@ -5,8 +5,22 @@
 
 Utility functions for running [Stock
 Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) (SS)
-models on the [OpenScienceGrid](https://osg-htc.org/)
+models on the [OpenScienceGrid](https://osg-htc.org/) (OSG)
 [HTCondor](https://htcondor.org/) network.
+
+This package facilitates running Stock Synthesis models and the
+following advanced diagnostics on the OSG: - retrospective - R0
+likelihood profile - age-structured production model (ASPM) -
+deterministic recruitment model
+
+The *ssgrid* contains functions for: - connecting to the OSG - uploading
+files to OSG - writing files to automatically set-up the execution of
+the HTcondor job - creating the HTcondor *condor\_submit* script -
+creating the bash shell script executed by the *condor\_submit* script -
+creating R scripts needed to manipulate SS files using
+[r4ss](https://github.com/r4ss/r4ss) functions in order to run advanced
+diagnostics. - submiting the HTcondor job - downloading completed model
+runs - cleaning up directories on OSG
 
 ### Warning
 
@@ -25,26 +39,26 @@ remotes::install_github("N-DucharmeBarth-NOAA/ssgrid")
 
 ### Base functionality development list
 
-  - [x] base code: osg\_connect
-  - [x] base code: osg\_multi-copy
-  - [x] base code: osg\_upload\_ss\_dir
-  - [x] base code: osg\_wrapper\_create
-  - [x] base code: osg\_condor\_submit\_create
-  - [x] base code: osg\_r\_script\_create
-  - [x] base code: osg\_execute
-  - [x] base code: osg\_monitor
-  - [x] base code: osg\_clean (option to just remove logs)
-  - [x] base code: osg\_download\_ss\_dir (download end.tar.gz,
+  - [x] base code: `osg_connect()`
+  - [x] base code: `osg_multi_copy()`
+  - [x] base code: `osg_upload_ss_dir()`
+  - [x] base code: `osg_wrapper_create()`
+  - [x] base code: `osg_condor_submit_create()`
+  - [x] base code: `osg_r_script_create()`
+  - [x] base code: `osg_execute()`
+  - [x] base code: `osg_monitor()`
+  - [x] base code: `osg_clean()` (option to just remove logs)
+  - [x] base code: `osg_download_ss_dir()` (download end.tar.gz,
     optionally download logs, and optionally remove files from osg via
     osg\_clean after downloading)
-  - [x] osg\_upload\_ss\_dir: create target directory text file
+  - [x] `osg_upload_ss_dir()`: create target directory text file
   - [ ] add more flexibility to input/output args
-  - [ ] osg\_wrapper\_create: option to suppress log files
-  - [ ] osg\_wrapper\_create: add options for running diagnostics (ASPM,
-    retrospectives, R0 profile, jitter) via R scripts
-  - [ ] osg\_r\_script\_create: add options for user to pass their own R
-    script
-  - [ ] Documentation (roxygen2)
+  - [ ] `osg_wrapper_create()`: option to suppress log files
+  - [ ] `osg_wrapper_create()`: add options for running diagnostics
+    (ASPM, retrospectives, R0 profile, jitter) via R scripts
+  - [ ] `osg_r_script_create()`: add options for user to pass their own
+    R script
+  - [x] Documentation (roxygen2)
   - [x] Make package: description, license, git-hub actions,
     github-pages, NOAA template
   - [ ] Add vignettes: setting up OSG environment
