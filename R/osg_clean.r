@@ -1,19 +1,20 @@
 
 #' This function cleans directories of given files and sub-directories
 #'
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase
-#' @param remote_dirs
-#' @param clean_files
-#' @param clean_subdirs
-#' @param verbose
-#' @return
+#' @param session ssh connection created by \link[ssgrid]{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param remote_dirs Character vector giving path of directories to clean on OSG login node.
+#' @param clean_files Character vector giving files to remove from remote_dirs. Defaults to all files except for End.tar.gz.
+#' @param clean_subdirs Character vector giving path of directories to delete on OSG login node.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal
-#' 
+#' @importFrom utils tail
 
 # Nicholas Ducharme-Barth
 # August 20, 2022
@@ -69,7 +70,7 @@ osg_clean = function(session = NULL,
 			if(is.null(clean_files))
 			{
 				dir_contents = strsplit(rawToChar(ssh::ssh_exec_internal(session,paste0("cd ",remote_dirs[i],"; ls -lh"))$stdout),"\\n")[[1]][-1]
-				rm_files = setdiff(unname(sapply(dir_contents,function(x)tail(strsplit(x,"\\s+")[[1]],n=1))),"End.tar.gz")
+				rm_files = setdiff(unname(sapply(dir_contents,function(x)utils::tail(strsplit(x,"\\s+")[[1]],n=1))),"End.tar.gz")
 			} else {
 				rm_files = clean_files
 			}
