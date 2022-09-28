@@ -23,8 +23,6 @@
 #'		\item{\emph{r:3.5.0}}{R version 3.5.0}
 #'      \item{\emph{r:4.0.2}}{R version 4.0.2}
 #' }
-#' @param c_ss_path Path on OSG login node to ss executable.
-#' @param c_r_libs_path Path on OSG to portable R libraries.
 #' @param overwrite If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.
 #' @param verbose Boolean denoting if function details should be printed.
 #' @return Returns 0 on exit.
