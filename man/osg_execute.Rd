@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_execute.r
 \name{osg_execute}
 \alias{osg_execute}
-\title{This function submits a job array to the Open Science Grid}
+\title{This function submits a job array to the Open Science Grid (OSG)}
 \usage{
 osg_execute(
   session = NULL,
@@ -15,8 +15,23 @@ osg_execute(
 )
 }
 \arguments{
-\item{condor_submit_name}{}
+\item{session}{ssh connection created by \link{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{remote_submit_path}{Path to directory on OSG login node where condor_submit script is written.}
+
+\item{condor_submit_name}{Name given to the condor_submit script.}
+}
+\value{
+Returns the output from executing the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} command on the OSG.
 }
 \description{
-It is a wrapper around the condor_submit function
+It is a wrapper around the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} function
 }

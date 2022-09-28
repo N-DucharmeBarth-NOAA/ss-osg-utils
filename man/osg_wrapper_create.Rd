@@ -19,8 +19,37 @@ osg_wrapper_create(
 )
 }
 \arguments{
-\item{rsa_passphrase}{}
+\item{session}{ssh connection created by \link[ssgrid]{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{local_shell_path}{Path to directory where condor_submit script is written. Defaults to \link[base]{tempdir}.}
+
+\item{remote_shell_path}{Path to directory on OSG login node where condor_submit script is written.}
+
+\item{file_name}{Character string giving name of executable, defaults to "wrapper.sh".}
+
+\item{wrapper_actions}{A character vector specifying which of 4 possible actions can be executed. Multiple actions are possible and must be one of:
+#' \describe{
+\item{\emph{"00_run_ss"}}{}
+\item{\emph{"01_run_retro"}}{}
+\item{\emph{"02_run_R0profile"}}{}
+\item{\emph{"03_run_aspm"}}{}
+}}
+
+\item{overwrite}{If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.}
+
+\item{verbose}{Boolean denoting if function details should be printed.}
+}
+\value{
+Returns 0 on exit.
 }
 \description{
-This function saves a copy of locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely
+This function saves a copy of locally, uploads a copy to Open Science Grid (OSG), and modifies permissions so that it can be executed remotely
 }

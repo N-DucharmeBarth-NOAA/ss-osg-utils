@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_multi_copy.r
 \name{osg_multi_copy}
 \alias{osg_multi_copy}
-\title{This function copies files to all specified directories on the OSG}
+\title{This function copies files to all specified directories on the Open Science Grid (OSG).}
 \usage{
 osg_multi_copy(
   session = NULL,
@@ -17,7 +17,26 @@ osg_multi_copy(
 )
 }
 \arguments{
-\item{rsa_passphrase}{}
+\item{session}{ssh connection created by \link{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{remote_source_path}{Character vector of directories on the OSG login node to copy files from.}
+
+\item{files_to_copy}{Character vector of file names to copy. Must be the same length as \emph{remote_source_path}.}
+
+\item{remote_paste_path}{Character vector of directories on the OSG login node to paste the files into.}
+
+\item{verbose}{Boolean denoting if function details should be printed.}
+}
+\value{
+Returns 0 on exit.
 }
 \description{
 Please see ?help for osg_connect and ssh::ssh_connect for more information.

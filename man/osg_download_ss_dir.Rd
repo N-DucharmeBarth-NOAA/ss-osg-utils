@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_download_ss_dir.r
 \name{osg_download_ss_dir}
 \alias{osg_download_ss_dir}
-\title{This function downloads a directory of model runs to a local directory.}
+\title{This function downloads a directory of model runs to a local directory from the Open Science Grid (OSG).}
 \usage{
 osg_download_ss_dir(
   session = NULL,
@@ -19,6 +19,36 @@ osg_download_ss_dir(
   delete_remote = FALSE,
   verbose = TRUE
 )
+}
+\arguments{
+\item{session}{ssh connection created by \link{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{remote_dir_stem}{Path on OSG login node to directory to download.}
+
+\item{remote_dirs}{Character vector of sub-directories to download from \emph{remote_dir_stem}.}
+
+\item{download_dir_stem}{Path to directory on local machin to download into.}
+
+\item{files_to_download}{Files to download from each directory given by \emph{remote_dirs}.}
+
+\item{untar_local}{Boolean denoting whether or not to untar all downloaded \emph{*tar.gz} files.}
+
+\item{clean_remote}{Boolean denoting whether or not to clean \emph{remote_dirs} using \link{osg_clean}.}
+
+\item{delete_remote}{Boolean denoting whether or not to delete \emph{remote_dirs}.}
+
+\item{verbose}{Boolean denoting if function details should be printed.}
+}
+\value{
+Returns 0 on exit.
 }
 \description{
 Options exist for cleaning the local and remote directory after download

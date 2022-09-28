@@ -7,10 +7,16 @@
 osg_connect(unix_name, login_node, rsa_keyfile = NULL, rsa_passphrase = NULL)
 }
 \arguments{
-\item{rsa_passphrase}{}
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
 }
 \value{
-Returns an object created by ssh::ssh_connect.
+Returns an object created by \link[ssh]{ssh_connect}.
 }
 \description{
 If you have a passphrase associated with your rsa private key please enter it in the 'password' section of the dialogue box that opens.

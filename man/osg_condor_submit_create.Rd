@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_condor_submit_create.r
 \name{osg_condor_submit_create}
 \alias{osg_condor_submit_create}
-\title{This function writes a condor_submit script to be executed on the open science grid.}
+\title{This function writes a \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} script to be executed on the Open Science Grid (OSG).}
 \usage{
 osg_condor_submit_create(
   session = NULL,
@@ -58,8 +58,8 @@ osg_condor_submit_create(
 
 \item{c_singularity}{Character string specifiying the R version to use. Defaults to NULL.
 \describe{
-\item{'r:3.5.0'}{R version 3.5.0}
-\item{'r:4.0.2'}{R version 4.0.2}
+\item{\emph{r:3.5.0}}{R version 3.5.0}
+\item{\emph{r:4.0.2}}{R version 4.0.2}
 }}
 
 \item{overwrite}{If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_clean.r
 \name{osg_clean}
 \alias{osg_clean}
-\title{This function cleans directories of given files and sub-directories}
+\title{This function cleans directories of given files and sub-directories on the Open Science Grid (OSG).}
 \usage{
 osg_clean(
   session = NULL,
@@ -39,5 +39,5 @@ osg_clean(
 Returns 0 on exit.
 }
 \description{
-This function cleans directories of given files and sub-directories
+This function cleans directories of given files and sub-directories on the Open Science Grid (OSG).
 }

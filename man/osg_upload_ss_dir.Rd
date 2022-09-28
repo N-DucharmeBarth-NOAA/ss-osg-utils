@@ -2,7 +2,7 @@
 % Please edit documentation in R/osg_upload_ss_dir.r
 \name{osg_upload_ss_dir}
 \alias{osg_upload_ss_dir}
-\title{This function uploads a directory of Stock Synthesis model runs to the OSG.}
+\title{This function uploads a directory structure to the Open Science Grid (OSG).}
 \usage{
 osg_upload_ss_dir(
   session = NULL,
@@ -20,8 +20,33 @@ osg_upload_ss_dir(
 )
 }
 \arguments{
-\item{rsa_passphrase}{}
+\item{session}{ssh connection created by \link[ssgrid]{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{local_dir_path}{Path to directory on local machine to upload to OSG.}
+
+\item{local_dir_names}{Character vector of sub-directories within \emph{local_dir_path} to upload to OSG.}
+
+\item{remote_dir_path}{Path on OSG login node to upload \emph{local_dir_names} into.}
+
+\item{files_to_upload}{Character vector giving file names to upload to OSG.}
+
+\item{target_dir_path}{Path on OSG login node with text file giving each directory to execute condor jobs in.}
+
+\item{target_dir_txt_name}{File name given to text file containing path of each directory to execute condor jobs in.}
+
+\item{verbose}{Boolean denoting if function details should be printed.}
+}
+\value{
+Returns 0 on exit.
 }
 \description{
-Please see ?help for osg_connect and ssh::ssh_connect for more information.
+This function uploads a directory structure to the Open Science Grid (OSG).
 }

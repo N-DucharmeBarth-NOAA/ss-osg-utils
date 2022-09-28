@@ -20,7 +20,7 @@ development version of *ssgrid* from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("N-DucharmeBarth-NOAA/ss-osg-utils")
+remotes::install_github("N-DucharmeBarth-NOAA/ssgrid")
 ```
 
 ### Base functionality development list
