@@ -26,7 +26,52 @@ osg_condor_submit_create(
 )
 }
 \arguments{
-\item{rsa_passphrase}{}
+\item{session}{ssh connection created by \link{osg_connect}.}
+
+\item{unix_name}{Character string giving OSG unix login name.}
+
+\item{login_node}{Character string giving OSG login node (e.g., login05.osgconnect.net).}
+
+\item{rsa_keyfile}{Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{rsa_passphrase}{Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.}
+
+\item{local_shell_path}{Path to directory where condor_submit script is written. Defaults to \link[base]{tempdir}.}
+
+\item{remote_shell_path}{Path to directory on OSG login node where condor_submit script is written.}
+
+\item{file_name}{Name given to the condor_submit script.}
+
+\item{c_executable}{Name of executable or bash script to be executed by the condor_submit script.}
+
+\item{c_input_files}{Character vector of input files to be passed to condor job.}
+
+\item{c_output_files}{Character vector of output files to be returned from condor job.}
+
+\item{c_project}{OSG project to submit this job under.}
+
+\item{c_memory}{Requested RAM for condor job (e.g., 200MB or 2GB)}
+
+\item{c_disk}{Requested disk storage for condor job (e.g., 200MB or 2GB)}
+
+\item{c_target_dir_path}{Path on OSG login node with text file giving each directory to execute the condor job in.}
+
+\item{c_singularity}{Character string specifiying the R version to use. Defaults to NULL.
+\describe{
+\item{'r:3.5.0'}{R version 3.5.0}
+\item{'r:4.0.2'}{R version 4.0.2}
+}}
+
+\item{overwrite}{If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.}
+
+\item{verbose}{Boolean denoting if function details should be printed.}
+
+\item{c_ss_path}{Path on OSG login node to ss executable.}
+
+\item{c_r_libs_path}{Path on OSG to portable R libraries.}
+}
+\value{
+Returns 0 on exit.
 }
 \description{
 This function saves a copy of locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely

@@ -3,26 +3,31 @@
 #'
 #' This function saves a copy of locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely 
 #' 
-#' @param session
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase 
-#' @param local_shell_path
-#' @param remote_shell_path
-#' @param file_name
-#' @param c_executable
-#' @param c_input_files
-#' @param c_output_files
-#' @param c_project
-#' @param c_memory
-#' @param c_disk
-#' @param c_target_dir_path
-#' @param c_singularity
-#' @param c_ss_path
-#' @param c_r_libs_path
-#' @param overwrite
-#' @param verbose
+#' @param session ssh connection created by \link{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param local_shell_path Path to directory where condor_submit script is written. Defaults to \link[base]{tempdir}.
+#' @param remote_shell_path Path to directory on OSG login node where condor_submit script is written.
+#' @param file_name Name given to the condor_submit script.
+#' @param c_executable Name of executable or bash script to be executed by the condor_submit script.
+#' @param c_input_files Character vector of input files to be passed to condor job.
+#' @param c_output_files Character vector of output files to be returned from condor job.
+#' @param c_project OSG project to submit this job under.
+#' @param c_memory Requested RAM for condor job (e.g., 200MB or 2GB)
+#' @param c_disk Requested disk storage for condor job (e.g., 200MB or 2GB)
+#' @param c_target_dir_path Path on OSG login node with text file giving each directory to execute the condor job in.
+#' @param c_singularity Character string specifiying the R version to use. Defaults to NULL.
+#' \describe{
+#'		\item{'r:3.5.0'}{R version 3.5.0}
+#'      \item{'r:4.0.2'}{R version 4.0.2}
+#' }
+#' @param c_ss_path Path on OSG login node to ss executable.
+#' @param c_r_libs_path Path on OSG to portable R libraries.
+#' @param overwrite If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal
