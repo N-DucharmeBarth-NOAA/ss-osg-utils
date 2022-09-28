@@ -1,20 +1,19 @@
 
-#' This function uploads a directory of Stock Synthesis model runs to the OSG.
-#'
-#' Please see ?help for osg_connect and ssh::ssh_connect for more information.
+#' This function uploads a directory structure to the Open Science Grid (OSG).
 #' 
-#' @param session
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase 
-#' @param local_dir_path
-#' @param local_dir_names
-#' @param remote_dir_path
-#' @param files_to_upload
-#' @param target_dir_path
-#' @param target_dir_txt_name
-#' @param verbose
+#' @param session ssh connection created by \link[ssgrid]{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details. 
+#' @param local_dir_path Path to directory on local machine to upload to OSG.
+#' @param local_dir_names Character vector of sub-directories within \emph{local_dir_path} to upload to OSG.
+#' @param remote_dir_path Path on OSG login node to upload \emph{local_dir_names} into.
+#' @param files_to_upload Character vector giving file names to upload to OSG.
+#' @param target_dir_path Path on OSG login node with text file giving each directory to execute condor jobs in.
+#' @param target_dir_txt_name File name given to text file containing path of each directory to execute condor jobs in.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh scp_upload

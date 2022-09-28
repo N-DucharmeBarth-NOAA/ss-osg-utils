@@ -1,21 +1,27 @@
 
 #' This function writes an R script which can be executed within the wrapper.sh to set-up and run diagnostics using existing r4ss code. 
 #'
-#' This function saves a copy locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely 
+#' This function saves a copy locally, uploads a copy to Open Science Grid (OSG), and modifies permissions so that it can be executed remotely 
 #' 
-#' @param session
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase 
-#' @param local_shell_path
-#' @param remote_shell_path
-#' @param diagnostic_type
-#' @param overwrite
-#' @param verbose
-#' @param retro_n_years
-#' @param r0_maxdiff
-#' @param r0_step
+#' @param session ssh connection created by \link[ssgrid]{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details. 
+#' @param local_shell_path Path to directory where condor_submit script is written. Defaults to \link[base]{tempdir}.
+#' @param remote_shell_path Path to directory on OSG login node where condor_submit script is written.
+#' @param diagnostic_type A character string specifying which diagnostic to run.
+#' \describe{
+#'		\item{\emph{"01_run_retro"}}{Conduct a retrospective analysis of length \emph{retro_n_years}.}
+#'      \item{\emph{"02_run_R0profile"}}{Conduct a likelihood profile on R0 where the profile extends +/- \emph{r0_maxdiff} from the log(R0) maximum likelihood estimate at an interval specified by \emph{r0_step}.}
+#' 		\item{\emph{"03_run_aspm"}}{Conduct age structured production (ASPM) and deterministic recruitment runs of the model. \emph{Warning: for the ASPM there are some hard coded settings that may not be appropriate for your model.}}
+#' }
+#' @param overwrite If the file given by \emph{file_name} exists in \emph{local_shell_path} or \emph{remote_shell_path} overwrite if TRUE.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @param retro_n_years The number of years for the retrospective analysis.
+#' @param r0_maxdiff The maximum distance from the log(R0) maximum likelihood estimate that the profile will extend.
+#' @param r0_step The step size used in profiling (on a log scale).
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal
