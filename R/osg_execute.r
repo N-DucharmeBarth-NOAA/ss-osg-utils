@@ -1,15 +1,16 @@
 
-#' This function submits a job array to the Open Science Grid
+#' This function submits a job array to the Open Science Grid (OSG)
 #'
-#' It is a wrapper around the condor_submit function
+#' It is a wrapper around the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} function
 #' 
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase
-#' @param remote_submit_path
-#' @param condor_submit_name 
-#' @return
+#' @param session ssh connection created by \link{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param remote_submit_path Path to directory on OSG login node where condor_submit script is written.
+#' @param condor_submit_name Name given to the condor_submit script.
+#' @return Returns the output from executing the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} command on the OSG.
 #' @export
 #' @importFrom ssh ssh_exec_internal
 #' 

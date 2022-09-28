@@ -1,13 +1,14 @@
 
-#' This function monitors an Open Science Grid job submission
+#' This function monitors an Open Science Grid (OSG) job submission
 #'
-#' It is a wrapper around the condor_q function
+#' It is a wrapper around the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_q.html}{condor_q} function
 #'
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase
-#' @return
+#' @param session ssh connection created by \link{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @return Returns the output from executing the \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_q.html}{condor_q} command on the OSG.
 #' @export
 #' @importFrom ssh ssh_exec_internal
 #' 

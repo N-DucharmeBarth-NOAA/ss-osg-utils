@@ -1,21 +1,22 @@
 
-#' This function downloads a directory of model runs to a local directory.
+#' This function downloads a directory of model runs to a local directory from the Open Science Grid (OSG).
 #'
 #' Options exist for cleaning the local and remote directory after download
 #'
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase
-#' @param remote_dir_stem
-#' @param remote_dirs
-#' @param download_dir_stem
-#' @param files_to_download
-#' @param untar_local
-#' @param clean_remote
-#' @param delete_remote
-#' @param verbose
-#' @return
+#' @param session ssh connection created by \link{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param remote_dir_stem Path on OSG login node to directory to download.
+#' @param remote_dirs Character vector of sub-directories to download from \emph{remote_dir_stem}.
+#' @param download_dir_stem Path to directory on local machin to download into.
+#' @param files_to_download Files to download from each directory given by \emph{remote_dirs}.
+#' @param untar_local Boolean denoting whether or not to untar all downloaded \emph{*tar.gz} files.
+#' @param clean_remote Boolean denoting whether or not to clean \emph{remote_dirs} using \link{osg_clean}.
+#' @param delete_remote Boolean denoting whether or not to delete \emph{remote_dirs}.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh scp_download

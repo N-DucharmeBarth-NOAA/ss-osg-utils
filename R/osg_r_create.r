@@ -191,7 +191,7 @@ osg_r_create = function(session=NULL,
 								local_shell_path,
 								paste0(file_name," was written at local location at : "),
 								as.character(local_action_time))
-			} else if(file.exists(paste0(local_shell_path,file_name)) & overwrite) {
+			} else if(file.exists(paste0(local_shell_path,file_name)) && overwrite) {
 				writeLines(r_vec,con=paste0(local_shell_path,file_name))
 				local_action_time = Sys.time()
 				local_action = c(paste0(file_name," already exists at local location: "),
@@ -224,7 +224,7 @@ osg_r_create = function(session=NULL,
 								remote_shell_path,
 								paste0(file_name," was written at remote location at : "),
 								as.character(remote_action_time))
-			} else if(length(remote_exist)!=0 & overwrite) {
+			} else if(length(remote_exist)!=0 && overwrite) {
 		       	ssh::scp_upload(session,files=paste0(local_shell_path,file_name),to=paste0("/home/",unix_name,"/",remote_shell_path))
 				remote_action_time = Sys.time()
 				remote_action = c(paste0(file_name," already exists at remote location: "),

@@ -59,7 +59,7 @@ osg_upload_ss_dir = function(session=NULL,
 	}
 
 	# iterate over local directories
-	for(i in 1:length(local_dir_names))
+	for(i in seq_along(local_dir_names))
 	{
 		# check if files to upload are in the directory
 			if(mean(files_to_upload %in% list.files(paste0(local_dir_path,local_dir_names[i])))!=1)
@@ -102,7 +102,7 @@ osg_upload_ss_dir = function(session=NULL,
 			}
 
 			sink_target = paste0(remote_dir_path,local_dir_names)
-			for(i in 1:length(sink_target))
+			for(i in seq_along(sink_target))
 			{
 				if(substr(sink_target[i], nchar(sink_target[i]), nchar(sink_target[i]))!="/")
 				{

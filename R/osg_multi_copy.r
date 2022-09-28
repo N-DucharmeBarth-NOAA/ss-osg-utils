@@ -1,17 +1,18 @@
 
-#' This function copies files to all specified directories on the OSG
+#' This function copies files to all specified directories on the Open Science Grid (OSG).
 #'
 #' Please see ?help for osg_connect and ssh::ssh_connect for more information.
 #' 
-#' @param session
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase 
-#' @param remote_source_path
-#' @param files_to_copy
-#' @param remote_paste_path
-#' @param verbose
+#' @param session ssh connection created by \link{osg_connect}.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param remote_source_path Character vector of directories on the OSG login node to copy files from.
+#' @param files_to_copy Character vector of file names to copy. Must be the same length as \emph{remote_source_path}.
+#' @param remote_paste_path Character vector of directories on the OSG login node to paste the files into.
+#' @param verbose Boolean denoting if function details should be printed.
+#' @return Returns 0 on exit.
 #' @export
 #' @importFrom ssh ssh_exec_wait
 #' @importFrom ssh ssh_exec_internal

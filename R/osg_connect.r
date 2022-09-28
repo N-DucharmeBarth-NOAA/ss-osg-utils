@@ -6,11 +6,11 @@
 #'
 #' Please use ?ssh::ssh_connect for more information.
 #' 
-#' @param unix_name
-#' @param login_node
-#' @param rsa_keyfile
-#' @param rsa_passphrase 
-#' @return Returns an object created by ssh::ssh_connect.
+#' @param unix_name Character string giving OSG unix login name.
+#' @param login_node Character string giving OSG login node (e.g., login05.osgconnect.net).
+#' @param rsa_keyfile Path to private key file. Must be in OpenSSH format (see details). Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @param rsa_passphrase Either a string or a callback function for password prompt. Default is NULL. See \link[ssh]{ssh_connect} for more details.
+#' @return Returns an object created by \link[ssh]{ssh_connect}.
 #' @export
 #' @importFrom ssh ssh_connect
 #' 
@@ -23,14 +23,14 @@
 osg_connect = function(unix_name,login_node,rsa_keyfile=NULL,rsa_passphrase=NULL)
 {
 	# connect to osg
-	if(is.null(rsa_passphrase)&is.null(rsa_keyfile))
+	if(is.null(rsa_passphrase)&&is.null(rsa_keyfile))
 	{
 		# use password prompt
 			session = ssh::ssh_connect(host=paste0(unix_name,"@",login_node))
-	} else if (!is.null(rsa_passphrase)&is.null(rsa_keyfile)){
+	} else if (!is.null(rsa_passphrase)&&is.null(rsa_keyfile)){
 		# use passphrase as function argument
 			session = ssh::ssh_connect(host=paste0(unix_name,"@",login_node),passwd=as.character(rsa_passphrase))
-	} else if (is.null(rsa_passphrase)&!is.null(rsa_keyfile)){
+	} else if (is.null(rsa_passphrase)&&!is.null(rsa_keyfile)){
 		# use keyfile
 			session = ssh::ssh_connect(host=paste0(unix_name,"@",login_node),keyfile=rsa_keyfile)
 	} else {

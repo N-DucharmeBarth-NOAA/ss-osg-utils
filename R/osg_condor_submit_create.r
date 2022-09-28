@@ -1,5 +1,5 @@
 
-#' This function writes a condor_submit script to be executed on the open science grid. 
+#' This function writes a \href{https://htcondor.readthedocs.io/en/latest/man-pages/condor_submit.html}{condor_submit} script to be executed on the Open Science Grid (OSG). 
 #'
 #' This function saves a copy of locally, uploads a copy to osg, and modifies permissions so that it can be executed remotely 
 #' 
@@ -20,8 +20,8 @@
 #' @param c_target_dir_path Path on OSG login node with text file giving each directory to execute the condor job in.
 #' @param c_singularity Character string specifiying the R version to use. Defaults to NULL.
 #' \describe{
-#'		\item{'r:3.5.0'}{R version 3.5.0}
-#'      \item{'r:4.0.2'}{R version 4.0.2}
+#'		\item{\emph{r:3.5.0}}{R version 3.5.0}
+#'      \item{\emph{r:4.0.2}}{R version 4.0.2}
 #' }
 #' @param c_ss_path Path on OSG login node to ss executable.
 #' @param c_r_libs_path Path on OSG to portable R libraries.
@@ -168,7 +168,7 @@ osg_condor_submit_create = function(session=NULL,
 								local_shell_path,
 								paste0(file_name," was written at local location at : "),
 								as.character(local_action_time))
-			} else if(file.exists(paste0(local_shell_path,file_name)) & overwrite) {
+			} else if(file.exists(paste0(local_shell_path,file_name)) && overwrite) {
 				writeLines(submit_vec,con=paste0(local_shell_path,file_name))
 				local_action_time = Sys.time()
 				local_action = c(paste0(file_name," already exists at local location: "),
@@ -201,7 +201,7 @@ osg_condor_submit_create = function(session=NULL,
 								remote_shell_path,
 								paste0(file_name," was written at remote location at : "),
 								as.character(remote_action_time))
-			} else if(length(remote_exist)!=0 & overwrite) {
+			} else if(length(remote_exist)!=0 && overwrite) {
 		       	ssh::scp_upload(session,files=paste0(local_shell_path,file_name),to=paste0("/home/",unix_name,"/",remote_shell_path))
 				remote_action_time = Sys.time()
 				remote_action = c(paste0(file_name," already exists at remote location: "),

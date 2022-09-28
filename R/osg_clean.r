@@ -1,5 +1,5 @@
 
-#' This function cleans directories of given files and sub-directories
+#' This function cleans directories of given files and sub-directories on the Open Science Grid (OSG).
 #'
 #' @param session ssh connection created by \link[ssgrid]{osg_connect}.
 #' @param unix_name Character string giving OSG unix login name.
@@ -35,15 +35,12 @@ osg_clean = function(session = NULL,
 		if(is.null(session))
 		{
 			session = osg_connect(unix_name,login_node,rsa_keyfile,rsa_passphrase)
-			osg_disconnect = TRUE
-		} else {
-			osg_disconnect = FALSE
-		}
+		} 
 
 	A = proc.time()
 	# sanitize remote_dirs
 		remote_dirs = gsub("\\","/",remote_dirs,fixed=TRUE)
-		for(i in 1:length(remote_dirs))
+		for(i in seq_along(remote_dirs))
 		{
 			# sanitize
 				if(substr(remote_dirs[i], nchar(remote_dirs[i]), nchar(remote_dirs[i]))!="/")
@@ -64,7 +61,7 @@ osg_clean = function(session = NULL,
 
 
 	# iterate over dirs
-	for(i in 1:length(remote_dirs))
+	for(i in seq_along(remote_dirs))
 	{
 		# delete files
 			if(is.null(clean_files))
