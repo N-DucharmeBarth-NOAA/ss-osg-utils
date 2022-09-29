@@ -1,0 +1,103 @@
+---
+title: "Set-up OSG to work with ssgrid"
+author: "Nicholas Ducharme-Barth"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Set-up OSG to work with ssgrid}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+  knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+Before being able to unleash the utility of high-throughput computing for stock assessment using [OSG](https://osg-htc.org/) and the *ssgrid* package there are a few things that need setting up:
+
+1. ssh keys for connection to OSG,
+2. a portable R library containing *r4ss* so that the R scripts written by `osg_r_create()` will work,
+3. uploading a [Stock Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) executable to OSG.
+
+### 1. ssh key generation
+
+The easiest way to do this is to follow the [instructions on the OSG help portal](https://support.opensciencegrid.org/support/solutions/articles/12000027675-generate-ssh-keys-and-activate-your-osg-login).
+
+In **Step 1** of their instructions I would follow the steps for *Unix-based operating system (Linux/Mac) or latest Windows 10 versions*.
+If using Windows and PowerShell as your terminal you can skip the `chmod 700 ~/.ssh` command.
+Otherwise follow the rest of the instructions.
+
+### 2. Setting up the portable R library
+
+Similar to step 1, the OSG help portal contains [good help](https://support.opensciencegrid.org/support/solutions/articles/5000674218-use-external-packages-in-your-r-jobs) on setting up a portable library.
+Below are the steps needed to create an R portable library that will work with *ssgrid*.
+
+**Step 2.1**: login to your assigned OSG login node. I prefer to do this via `ssh` using your terminal of choice.
+In this case user *your.username* will login at node *05*.
+
+```
+  ssh your.username@login05.osgconnect.net
+```
+
+**Step 2.2**: Once logged in, create a directory to house your portable R library.
+```
+  mkdir -p R-lib-4.0.2/R-packages
+  cd R-lib-4.0.2
+```
+
+**Step 2.3**: Enter an environment with the appropriate version of R^[As of September 28, 2022 the most up to date version available was *4.0.2*.].
+
+```
+  singularity shell /cvmfs/singularity.opensciencegrid.org/opensciencegrid/osgvo-r:4.0.2
+```
+
+**Step 2.4**: Declare global variables describing where R to install packages, and launch R.
+```
+  export R_LIBS=$PWD/R-packages
+  export TMPDIR=$PWD
+  R
+```
+
+**Step 2.5**: Once inside R, check to see if the directory that you created in step 1, *R-packages*, is in the library path.
+```{r}
+  .libPaths() # check to see if 'R-packages' directory is in library path
+```
+
+**Step 2.6**: Still within R, install the *remotes* and *r4ss* packages. *remotes* is needed to install the github version of *r4ss*^[As of September 28, 2022 the CRAN version of *r4ss* did not contain the new format of key *r4ss* functions.].
+Follow the on-screen prompts to install the packages, and then exit R.
+```{r}
+  install.packages("remotes", repos = "http://cloud.r-project.org/")
+  remotes::install_github("r4ss/r4ss",dependencies=TRUE)
+  q(save="no")
+```
+
+**Step 2.7**: Exit the R environment that you entered into in step 3.
+Next tar up your portable R library and delete the uncompressed directory to save space. 
+```
+  exit
+  touch R-packages.tar.gz
+  tar -czf R-packages.tar.gz R-packages/
+  rm -r R-packages
+```
+
+### 3. Upload Stock Synthesis to OSG
+
+The OSG help portal contains a page describing [how to upload files](https://support.opensciencegrid.org/support/solutions/articles/5000634376-use-scp-to-transfer-files-to-and-from-osg-connect) to OSG using `scp`. This is the approach that we will take.
+
+**Step 3.1**: [Download a Stock Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis/releases) linux executable of your choice.
+Make sure to rename whatever linux version you download as *ss_linux* since the *ssgrid* functions will look for that name.
+
+**Step 3.2**: If you are not still logged into OSG on a terminal, connect to OSG via `ssh`. Then make a directory to upload *ss_linux* into.
+The *ssgrid* default is to look for a directory called *ss_executable*. Once the directory is made, close the `ssh` connection.
+
+```
+  mkdir -p ss_executable
+  exit
+```
+
+**Step 3.3**: Navigate to the local directory you downloaded *ss_linux* into using your terminal of choice. Next, upload to OSG via `scp`.
+
+```
+  scp ss_linux your.username@login05.osgconnect.net:/home/your.username/ss_executable/
+```
