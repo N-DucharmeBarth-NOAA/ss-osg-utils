@@ -31,12 +31,6 @@ jobs:
       - name: Build site
         run: Rscript -e 'pkgdown::build_site()'
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: main
-          folder: docs # The folder the action should deploy.
-
       - name: Set up Git
         run: |
           git config --local user.email "actions@github.com"

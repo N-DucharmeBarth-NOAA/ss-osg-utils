@@ -1,0 +1,28 @@
+Package: ssgrid
+Title: ssgrid: Stock Sythesis - OpenScienceGrid - utilities
+Date: 2022-09-27
+Version: 0.0.0
+Authors@R: c(
+			person(given="Nicholas", family="Ducharme-Barth", email="nicholas.ducharme-barth@noaa.gov", role = c("aut", "cre")),
+			person(given="Megumi", family="Oshima", role = c("ctb")))
+URL: https://github.com/N-DucharmeBarth-NOAA/ss-osg-utils
+BugReports: https://github.com/N-DucharmeBarth-NOAA/ss-osg-utils/issues
+Description: Utility functions for running Stock Synthesis (SS) models on the OpenScienceGrid HTCondor network.
+Depends: R (>= 4.0.0)
+Imports:
+	ssh
+Suggests: 
+    rmarkdown,
+    knitr,
+    remotes,
+    r4ss,
+    ss3diags
+Remotes: 
+	r4ss/r4ss,
+	PIFSCstockassessments/ss3diags
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
