@@ -10,10 +10,10 @@
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html</loc>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html</loc>
   </url>
   <url>
-    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/test.html</loc>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html</loc>
   </url>
   <url>
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/authors.html</loc>
@@ -56,5 +56,17 @@
   </url>
   <url>
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/reference/osg_wrapper_create.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/reference/ss_control.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/reference/ss_data.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/reference/ss_forecast.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/reference/ss_starter.html</loc>
   </url>
 </urlset>
