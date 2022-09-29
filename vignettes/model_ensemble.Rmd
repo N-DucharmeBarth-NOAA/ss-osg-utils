@@ -1,10 +1,10 @@
 ---
-title: "Test"
+title: "Set-up a job array to run on OSG"
 author: "Nicholas Ducharme-Barth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Test}
+  %\VignetteIndexEntry{Set-up a job array to run on OSG}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,6 +13,4 @@ vignette: >
   knitr::opts_chunk$set(eval = FALSE)
 ```
 
-This is a test.
-
-More text.
+In this example we will set up and run a simple job array of Stock Synthesis models on OSG and show how results can be combined in a model ensemble.
