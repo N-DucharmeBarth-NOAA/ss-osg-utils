@@ -10,6 +10,8 @@ output:
 [![R-CMD-check](https://github.com/N-DucharmeBarth-NOAA/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/N-DucharmeBarth-NOAA/ssgrid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+<br>
+
 ## ssgrid: Stock Sythesis - OpenScienceGrid - utilities 
 
 Utility functions for running [Stock Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) (SS) models on the [OpenScienceGrid](https://osg-htc.org/) (OSG) [HTCondor](https://htcondor.org/) network.
