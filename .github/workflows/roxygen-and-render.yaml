@@ -4,10 +4,10 @@ on:
   pull_request:
     branches: [main, master]
 
-name: update-pkgdown-site
+name: roxygen-and-render
 
 jobs:
-  update-pkgdown-site:
+  roxygen-and-render:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
