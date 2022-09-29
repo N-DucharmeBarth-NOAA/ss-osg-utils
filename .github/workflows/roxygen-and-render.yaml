@@ -28,8 +28,8 @@ jobs:
       - name: Update Readme.md
         run: Rscript -e 'rmarkdown::render("README.Rmd")'
 
-      - name: Build site
-        run: Rscript -e 'pkgdown::build_site()'
+      # - name: Build site
+      #   run: Rscript -e 'pkgdown::build_site()'
 
       - name: Set up Git
         run: |
