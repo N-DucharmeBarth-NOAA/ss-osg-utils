@@ -6,6 +6,8 @@
 [![R-CMD-check](https://github.com/N-DucharmeBarth-NOAA/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/N-DucharmeBarth-NOAA/ssgrid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+<br>
+
 ## ssgrid: Stock Sythesis - OpenScienceGrid - utilities
 
 Utility functions for running [Stock
