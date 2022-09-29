@@ -59,7 +59,7 @@ In this case user *your.username* will login at node *05*.
   R
 ```
 
-**Step 2.5**: Once inside R, check to see if the directory that you created in step 1, *R-packages*, is in the library path.
+**Step 2.5**: Once inside R, check to see if the directory that you created in step 2.1, *R-packages*, is in the library path.
 ```{r}
   .libPaths() # check to see if 'R-packages' directory is in library path
 ```
@@ -72,7 +72,7 @@ Follow the on-screen prompts to install the packages, and then exit R.
   q(save="no")
 ```
 
-**Step 2.7**: Exit the R environment that you entered into in step 3.
+**Step 2.7**: Exit the R environment that you entered into in step 2.3.
 Next tar up your portable R library and delete the uncompressed directory to save space. 
 ```
   exit
