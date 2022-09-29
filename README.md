@@ -10,6 +10,9 @@
 
 ## ssgrid: Stock Sythesis - OpenScienceGrid - utilities
 
+> ***Warning:*** Package is in active development. Code base may change
+> without warning prior to first stable release.
+
 Utility functions for running [Stock
 Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) (SS)
 models on the [OpenScienceGrid](https://osg-htc.org/) (OSG)
@@ -38,9 +41,6 @@ The *ssgrid* contains functions for:
   - submiting the HTcondor job
   - downloading completed model runs
   - cleaning up directories on OSG
-
-> ***Warning:*** Package is in active development. Code base may change
-> without warning prior to first stable release.
 
 ## Installation
 
@@ -86,7 +86,7 @@ information, along with the following articles to get you started:
   - [x] Documentation (roxygen2)
   - [x] Make package: description, license, git-hub actions,
     github-pages, NOAA template
-  - [ ] Add vignettes: setting up OSG environment
+  - [x] Add vignettes: setting up OSG environment
   - [ ] Add vignettes: launching/retrieving a job array
   - [ ] Add vignettes: running diagnostics across a job array
   - [ ] Add vignettes: model ensemble example (extracting quantities and
