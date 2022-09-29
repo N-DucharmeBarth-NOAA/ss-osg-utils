@@ -6,7 +6,7 @@
 [![R-CMD-check](https://github.com/N-DucharmeBarth-NOAA/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/N-DucharmeBarth-NOAA/ssgrid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-<br>
+<!-- <br> -->
 
 ## ssgrid: Stock Sythesis - OpenScienceGrid - utilities
 
@@ -39,7 +39,7 @@ The *ssgrid* contains functions for:
   - downloading completed model runs
   - cleaning up directories on OSG
 
-### Warning
+## Warning
 
 Package is in active development. Code base may change without warning
 prior to first stable release.
@@ -47,12 +47,22 @@ prior to first stable release.
 ## Installation
 
 *ssgrid* is not currently supported on CRAN. You can install the
-development version of *ssgrid* from [GitHub](https://github.com/) with:
+development version of *ssgrid* from
+[GitHub](https://github.com/N-DucharmeBarth-NOAA/ssgrid) with:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("N-DucharmeBarth-NOAA/ssgrid")
 ```
+
+## Help & Documentation
+
+Please see the *ssgrid*
+[webpage](https://n-ducharmebarth-noaa.github.io/ssgrid/) for more
+information, along with the following articles to get you started:
+
+  - [Setting up your OSG environment to work with
+    *ssgrid*](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html)
 
 ### Base functionality development list
 
