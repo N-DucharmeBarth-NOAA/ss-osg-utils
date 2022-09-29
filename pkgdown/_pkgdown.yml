@@ -1,5 +1,5 @@
 url: https://n-ducharmebarth-noaa.github.io/ssgrid/
 template:
   bootstrap: 5
-  bootswatch: quartz
-  # bootswatch: flatly
+  # bootswatch: quartz
+  bootswatch: flatly
