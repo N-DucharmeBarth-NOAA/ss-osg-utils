@@ -5,8 +5,9 @@ Version: 0.0.0
 Authors@R: c(
 			person(given="Nicholas", family="Ducharme-Barth", email="nicholas.ducharme-barth@noaa.gov", role = c("aut", "cre")),
 			person(given="Megumi", family="Oshima", role = c("ctb")))
-URL: https://github.com/N-DucharmeBarth-NOAA/ss-osg-utils
-BugReports: https://github.com/N-DucharmeBarth-NOAA/ss-osg-utils/issues
+URL: https://github.com/N-DucharmeBarth-NOAA/ssgrid,
+    https://n-ducharmebarth-noaa.github.io/ssgrid/
+BugReports: https://github.com/N-DucharmeBarth-NOAA/ssgrid/issues
 Description: Utility functions for running Stock Synthesis (SS) models on the OpenScienceGrid HTCondor network.
 Depends: R (>= 4.0.0)
 Imports:
