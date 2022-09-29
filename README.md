@@ -39,10 +39,8 @@ The *ssgrid* contains functions for:
   - downloading completed model runs
   - cleaning up directories on OSG
 
-## Warning
-
-Package is in active development. Code base may change without warning
-prior to first stable release.
+> ***Warning:*** Package is in active development. Code base may change
+> without warning prior to first stable release.
 
 ## Installation
 
