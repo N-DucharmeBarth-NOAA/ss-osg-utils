@@ -61,6 +61,11 @@ information, along with the following articles to get you started:
 
   - [Setting up your OSG environment to work with
     *ssgrid*](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html)
+  - [Set-up a job array to run on
+    OSG.](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html)
+    This article also shows how to combine models in an ensemble using
+    the [*ss3diags*](https://github.com/PIFSCstockassessments/ss3diags)
+    package.
 
 ### Base functionality development list
 
@@ -87,9 +92,9 @@ information, along with the following articles to get you started:
   - [x] Make package: description, license, git-hub actions,
     github-pages, NOAA template
   - [x] Add vignettes: setting up OSG environment
-  - [ ] Add vignettes: launching/retrieving a job array
+  - [x] Add vignettes: launching/retrieving a job array
   - [ ] Add vignettes: running diagnostics across a job array
-  - [ ] Add vignettes: model ensemble example (extracting quantities and
+  - [x] Add vignettes: model ensemble example (extracting quantities and
     combining with MVLN)
   - [ ] Add vignettes: run with custom submit script, r script, and
     wrapper script
