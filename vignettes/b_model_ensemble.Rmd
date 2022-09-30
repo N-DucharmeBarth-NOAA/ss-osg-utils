@@ -15,7 +15,7 @@ vignette: >
 
 In this example we will set up and run a simple job array of Stock Synthesis models on OSG and show how results can be combined in a model ensemble.
 We assume that you have already set-up your OSG environment to work with *ssgrid*.
-If not, please check out [this guide](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html).
+If not, please check out [this guide](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/a_setup_osg.html).
 Here we use example Stock Synthesis input files^[Simulated data loosely based on Pacific Hake.] that are distributed with *ssgrid* but these can be substituted for any Stock Synthesis files read in using [*r4ss*](https://github.com/r4ss/r4ss).
 
 The first step is to load *ssgrid*. We will also use both [*r4ss*](https://github.com/r4ss/r4ss) and [*ss3diags*](https://github.com/PIFSCstockassessments/ss3diags) but will reference those functions directly.
