@@ -2,10 +2,10 @@ pandoc: 2.14.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  model_ensemble: model_ensemble.html
-  run_diags: run_diags.html
-  setup_osg: setup_osg.html
-last_built: 2022-09-30T01:44Z
+  a_setup_osg: a_setup_osg.html
+  b_model_ensemble: b_model_ensemble.html
+  c_run_diags: c_run_diags.html
+last_built: 2022-09-30T02:00Z
 urls:
   reference: https://n-ducharmebarth-noaa.github.io/ssgrid/reference
   article: https://n-ducharmebarth-noaa.github.io/ssgrid/articles
