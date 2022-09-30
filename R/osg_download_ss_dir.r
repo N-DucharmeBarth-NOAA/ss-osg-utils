@@ -88,7 +88,10 @@ osg_download_ss_dir = function(session = NULL,
 		# download
 		for(j in 1:length(files_to_download))
 		{
-			ssh::scp_download(session, files=paste0(remote_dir_stem,remote_dirs[i],files_to_download[j]), to = paste0(download_dir_stem,remote_dirs[i]), verbose = verbose)
+			tmp_dirfiles = strsplit(rawToChar(ssh::ssh_exec_internal(session,paste0("ls ",remote_dir_stem,remote_dirs[i]))$stdout),"\\n")[[1]]
+			tmp_file = tmp_dirfiles[grep(files_to_download[j],tmp_dirfiles)]
+			ssh::scp_download(session, files=paste0(remote_dir_stem,remote_dirs[i],tmp_file), to = paste0(download_dir_stem,remote_dirs[i]), verbose = verbose)
+			rm(list=c("tmp_dirfiles","tmp_file"))
 		}
 
 		# un-tar
