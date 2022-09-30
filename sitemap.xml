@@ -7,16 +7,16 @@
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/01_setup_osg.html</loc>
-  </url>
-  <url>
-    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html</loc>
-  </url>
-  <url>
-    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/03_run_diags.html</loc>
-  </url>
-  <url>
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/run_diags.html</loc>
+  </url>
+  <url>
+    <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html</loc>
   </url>
   <url>
     <loc>https://n-ducharmebarth-noaa.github.io/ssgrid/authors.html</loc>
