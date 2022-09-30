@@ -1,10 +1,10 @@
 ---
-title: "Set-up OSG to work with ssgrid"
+title: "1. Set-up OSG to work with ssgrid"
 author: "Nicholas Ducharme-Barth"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Set-up OSG to work with ssgrid}
+  %\VignetteIndexEntry{1. Set-up OSG to work with ssgrid}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

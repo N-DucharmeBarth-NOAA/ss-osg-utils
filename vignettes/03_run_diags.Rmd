@@ -1,0 +1,123 @@
+---
+title: "3. Run diagnostics for a Stock Synthesis model using OSG"
+author: "Nicholas Ducharme-Barth"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3. Run diagnostics for a Stock Synthesis model using OSG}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+  knitr::opts_chunk$set(eval = FALSE)
+```
+
+This article describes how to run advanced Stock Synthesis diagnostics on OSG using the *ssgrid* package.
+The workflow is very similar to what was described in the article on [setting up a job array](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html).
+Here I will describe the process for running diagnostics for a single model that has already been run locally.
+However, I will also describe how this process can be generalized to run diagnostics for multiple models and for those that have not been run locally.
+
+As before, the first step is to open a connection to OSG.
+
+```{r}
+  # open a connection to OSG via ssh
+  	osg_session = osg_connect(unix_name = "your.username", login_node = "login05.osgconnect.net")
+```
+
+Next, upload your files. If uploading models where Stock Synthesis has already been run locally, you will want to include the `ss.par` file if you plan to run an R0 likelihood profile.
+Otherwise, if you plan to run the Stock Synthesis model on OSG, just upload the necessary Stock Synthesis input files.
+If you want to run diagnostics for more than one model, just modify `local_dir_names` to include all the sub-directories for all of the models you want to run diagnostics for.
+Currently, in order to run more than one model simultaneously they all have to be sub-directories within the same directory defined by `local_dir_path`. 
+
+```{r}
+  # upload the directory
+	  osg_upload_ss_dir(session = osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					local_dir_path = "path_to_local_directory/",
+					local_dir_names = c("path_to_local_subdir/"),
+					remote_dir_path = "remote_dir_path/",
+					files_to_upload = c("control.ss","data.ss","forecast.ss","starter.ss","ss.par"),
+					target_dir_path = "target_dir_files/",
+					target_dir_txt_name = "target_dir.txt")
+```
+
+Now, create the job executable. In the [previous example](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html) the only `wrapper_actions` that was defined was `"00_run_ss"`.
+This was because we wanted to run a Stock Synthesis model on OSG. You should leave that defined as the first entry to `wrapper_actions` if you plan to run Stock Synthesis on OSG.
+In this case we will remove it since we are already starting from a model that has been run locally.
+Additionally, if you do not want to run all diagnostics, you do not have to define all of them in `wrapper_actions`. 
+You can run a single diagnostic or any combination of the three diagnostics that are currently defined.
+In this case we will run all three diagnostic types defined:
+
+- `"01_run_retro`: retrospective
+- `"02_run_R0profile"`: R0 likelihood profile
+- `"03_run_aspm"`: production model type diagnostics
+	- age-structured production model (ASPM)
+	- deterministic recruitment model
+
+```{r}
+  # upload the directory
+	osg_wrapper_create(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					wrapper_actions = c("01_run_retro","02_run_R0profile","03_run_aspm"))
+```
+
+Having specified which diagnostics we would like to run, we need to define the R scripts to call the [*r4ss*](https://github.com/r4ss/r4ss) functions needed to run them.
+At this stage `osg_r_create()` is not vectorized and has to be called for each diagnostic.
+
+> **_Note:_** You can specifiy the number of years for your retrospective analysis and the resolution of the R0 profile.
+
+```{r}
+	osg_r_create(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					diagnostic_type = "01_run_retro",
+					retro_n_years = 5)
+
+	osg_r_create(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					diagnostic_type = "02_run_R0profile",
+					r0_maxdiff = 1,
+					r0_step = 0.01)
+	
+	osg_r_create(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					diagnostic_type = "03_run_aspm")
+```
+
+The submit script needs to include a list of all input files that need to be sent with each condor job.
+Since we are using R we need to send the portable R distribution `"R-packages.tar.gz"` [that was previously created](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/01_setup_osg.html), along with the three R scripts that were just created with `osg_r_create()`. 
+We also request a little more disk space (`"850MB"`) since we need to store the results from multiple diagnostic runs.
+
+```{r}
+	  osg_condor_submit_create(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					c_memory="600MB",
+					c_disk="850MB",
+					c_input_files=c("Start.tar.gz","ss_linux","R-packages.tar.gz","01_run_retro.r","02_run_R0profile.r","03_run_aspm.r"),
+					c_project="osg.your_project",
+					c_target_dir_path="target_dir_files/target_dir.txt",
+					c_singularity="r:4.0.2",
+					overwrite = TRUE,
+					verbose = TRUE)
+```
+
+All input files listed in `osg_condor_submit_create()` must be copied to each directory you plan on running a condor job in.
+If you plan on running diagnostics for multiple models, make sure the `remote_paste_path` contains all directories created by `osg_upload_ss_dir()`.
+
+```{r}
+	  osg_multi_copy(session=osg_session,
+					unix_name = "your.username",
+					login_node = "login05.osgconnect.net",
+					remote_source_path = c("R-lib-4.0.2/","ss_executable/3.30.16.00_safe/","scripts/r/","scripts/r/","scripts/r/"),
+					files_to_copy = c("R-packages.tar.gz","ss_linux","01_run_retro.r","02_run_R0profile.r","03_run_aspm.r"),
+					remote_paste_path = paste0("remote_dir_path/",c("path_to_local_subdir/"),"/"))
+```
+
+Now you can launch and download the jobs [as before](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html) using `osg_execute()` and `osg_download_ss_dir()`.
+Total runtime of each job will depend on the time it takes for the Stock Synthesis model to converge, the number of retrospective years, and the resolution of the R0 likelihood profile. 
