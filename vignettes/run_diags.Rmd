@@ -14,7 +14,7 @@ vignette: >
 ```
 
 This article describes how to run advanced Stock Synthesis diagnostics on OSG using the *ssgrid* package.
-The workflow is very similar to what was described in the article on [setting up a job array](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html).
+The workflow is very similar to what was described in the article on [setting up a job array](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html).
 Here I will describe the process for running diagnostics for a single model that has already been run locally.
 However, I will also describe how this process can be generalized to run diagnostics for multiple models and for those that have not been run locally.
 
@@ -43,7 +43,7 @@ Currently, in order to run more than one model simultaneously they all have to b
 					target_dir_txt_name = "target_dir.txt")
 ```
 
-Now, create the job executable. In the [previous example](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html) the only `wrapper_actions` that was defined was `"00_run_ss"`.
+Now, create the job executable. In the [previous example](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html) the only `wrapper_actions` that was defined was `"00_run_ss"`.
 This was because we wanted to run a Stock Synthesis model on OSG. You should leave that defined as the first entry to `wrapper_actions` if you plan to run Stock Synthesis on OSG.
 In this case we will remove it since we are already starting from a model that has been run locally.
 Additionally, if you do not want to run all diagnostics, you do not have to define all of them in `wrapper_actions`. 
@@ -90,7 +90,7 @@ At this stage `osg_r_create()` is not vectorized and has to be called for each d
 ```
 
 The submit script needs to include a list of all input files that need to be sent with each condor job.
-Since we are using R we need to send the portable R distribution `"R-packages.tar.gz"` [that was previously created](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/01_setup_osg.html), along with the three R scripts that were just created with `osg_r_create()`. 
+Since we are using R we need to send the portable R distribution `"R-packages.tar.gz"` [that was previously created](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html), along with the three R scripts that were just created with `osg_r_create()`. 
 We also request a little more disk space (`"850MB"`) since we need to store the results from multiple diagnostic runs.
 
 ```{r}
@@ -119,5 +119,5 @@ If you plan on running diagnostics for multiple models, make sure the `remote_pa
 					remote_paste_path = paste0("remote_dir_path/",c("path_to_local_subdir/"),"/"))
 ```
 
-Now you can launch and download the jobs [as before](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html) using `osg_execute()` and `osg_download_ss_dir()`.
+Now you can launch and download the jobs [as before](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html) using `osg_execute()` and `osg_download_ss_dir()`.
 Total runtime of each job will depend on the time it takes for the Stock Synthesis model to converge, the number of retrospective years, and the resolution of the R0 likelihood profile. 
