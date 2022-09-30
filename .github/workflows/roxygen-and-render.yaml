@@ -17,7 +17,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Install packages
-        run: Rscript -e 'install.packages(c("pkgdown", "roxygen2", "rmarkdown"))'
+        run: Rscript -e 'install.packages(c("roxygen2", "rmarkdown"))'
 
       - name: Install imported packages
         run: Rscript -e 'install.packages(c("ssh"))'
