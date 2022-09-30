@@ -60,14 +60,14 @@ Please see the *ssgrid*
 information, along with the following articles to get you started:
 
   - [1. Setting up your OSG environment to work with
-    *ssgrid*](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/01_setup_osg.html)
+    *ssgrid*](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/setup_osg.html)
   - [2. Set-up a job array to run on
-    OSG.](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/02_model_ensemble.html)
+    OSG.](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/model_ensemble.html)
     This article also shows how to combine models in an ensemble using
     the [*ss3diags*](https://github.com/PIFSCstockassessments/ss3diags)
     package.
   - [3. Run diagnostics for a Stock Synthesis model using
-    OSG](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/03_run_diags.html)
+    OSG](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/run_diags.html)
 
 ### Base functionality development list
 
