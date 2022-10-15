@@ -127,7 +127,10 @@ osg_r_create = function(session=NULL,
                                'dir_run_R0prof_down = paste0(dir_here,"/down/")',
                                'dir.create(dir_run_R0prof_down,recursive=TRUE,showWarnings=FALSE)',
                                'tmp_starter = SS_readstarter(file = "starter.ss", verbose = FALSE)',
-                               'tmp_starter$ctlfile = "control_modified.ss"',
+                               'orig_starter_ctlfile = tmp_starter$ctlfile',
+							   'orig_starter_prior_like = tmp_starter$prior_like',
+							   'orig_starter_init_values_src = tmp_starter$init_values_src',
+							   'tmp_starter$ctlfile = "control_modified.ss"',
                                'tmp_starter$prior_like = 1',
                                'tmp_starter$init_values_src = 1',
                                'SS_writestarter(tmp_starter, dir = dir_here, file = "starter.ss", overwrite = TRUE, verbose = FALSE, warn = FALSE)',
@@ -146,7 +149,13 @@ osg_r_create = function(session=NULL,
                                'profile_down = profile(dir_run_R0prof_down,oldctlfile = "control.ss",newctlfile = "control_modified.ss",string = "SR_LN(R0)",profilevec = r0_down_vec,usepar = TRUE,globalpar = FALSE,parstring = "# SR_parm[1]:",saveoutput = FALSE,overwrite = TRUE,exe = "ss_linux",verbose = FALSE)',
                                'write.csv(profile_down,file="profile_down.csv")',
                                'unlink(dir_run_R0prof_up, recursive=TRUE)',
-                               'unlink(dir_run_R0prof_down, recursive=TRUE)')
+                               'unlink(dir_run_R0prof_down, recursive=TRUE)',
+							   'tmp_starter = SS_readstarter(file = "starter.ss", verbose = FALSE)',
+							   'tmp_starter$ctlfile = orig_starter_ctlfile',
+							   'tmp_starter$prior_like = orig_starter_prior_like',
+							   'tmp_starter$init_values_src = orig_starter_init_values_src',
+							   'SS_writestarter(tmp_starter, dir = dir_here, file = "starter.ss", overwrite = TRUE, verbose = FALSE, warn = FALSE)',
+							   'rm(list=c("tmp_starter"))')
 			}
 			if(diagnostic_type == "03_run_aspm")
 			{
@@ -164,7 +173,7 @@ osg_r_create = function(session=NULL,
 								'tmp_ctl$recdev_adv = 0',
 								'SS_writectl(ctllist=tmp_ctl,outfile=paste0(dir_run_detrec,"control.ss"),overwrite = TRUE)',
 								'rm(list=c("tmp_ctl"))',
-								'run(dir = dir_run_detrec,exe = "ss_linux",verbose=FALSE)', 
+								'run(dir = dir_run_detrec,exe = "ss_linux",verbose=FALSE,skipfinished=FALSE)', 
 								'dir_run_aspm = paste0(dir_here,"/aspm/")',
 								'dir.create(dir_run_aspm,recursive=TRUE,showWarnings=FALSE)',
 								'file.copy(paste0(dir_here,"/",FileList),dir_run_aspm,overwrite=TRUE)',
@@ -185,7 +194,7 @@ osg_r_create = function(session=NULL,
 								'      tmp_ctl$MG_parms$PHASE = -abs(tmp_ctl$MG_parms$PHASE)',
 								'SS_writectl(tmp_ctl,paste0(dir_run_aspm,"control.ss"), version = "3.30", overwrite = TRUE)',
 								'rm(list="tmp_ctl")',
-								'run(dir = dir_run_aspm,exe = "ss_linux",verbose=FALSE)') 
+								'run(dir = dir_run_aspm,exe = "ss_linux",verbose=FALSE,skipfinished=FALSE)') 
 			}
 			
 		# check if shell script exists, if not then sink
