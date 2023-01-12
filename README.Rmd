@@ -37,6 +37,13 @@ The *ssgrid* contains functions for:
 - downloading completed model runs
 - cleaning up directories on OSG
 
+## Disclaimer
+
+Use of *ssgrid* implies adherence to the [OSG Connect and OSPool acceptable use policy:](https://portal.osg-htc.org/documentation/overview/references/policy/)
+
+- OSG Connect may only be used for work relevant to **research and/or education** efforts associated with an academic, government, or non-profit institution in the United States.
+- Proprietary data, HIPAA, and data with any other privacy concerns **should not** be stored on any OSG Connect filesystems or computed in OSG.
+
 ## Installation
 
 *ssgrid* is not currently supported on CRAN. You can install the development version of *ssgrid* from [GitHub](https://github.com/N-DucharmeBarth-NOAA/ssgrid) with:
