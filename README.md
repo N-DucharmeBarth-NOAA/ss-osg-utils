@@ -12,6 +12,17 @@
 
 > ***Warning:*** Package is in active development. Code base may change
 > without warning prior to first stable release.
+> 
+> Use of *ssgrid* implies adherence to the [OSG Connect and OSPool
+> acceptable use
+> policy:](https://portal.osg-htc.org/documentation/overview/references/policy/)
+> 
+>   - OSG Connect may only be used for work relevant to **research
+>     and/or education** efforts associated with an academic,
+>     government, or non-profit institution in the United States.
+>   - Proprietary data, HIPAA, and data with any other privacy concerns
+>     **should not** be stored on any OSG Connect filesystems or
+>     computed in OSG.
 
 Utility functions for running [Stock
 Synthesis](https://github.com/nmfs-stock-synthesis/stock-synthesis) (SS)
@@ -41,19 +52,6 @@ The *ssgrid* contains functions for:
   - submiting the HTcondor job
   - downloading completed model runs
   - cleaning up directories on OSG
-
-## Disclaimer
-
-Use of *ssgrid* implies adherence to the [OSG Connect and OSPool
-acceptable use
-policy:](https://portal.osg-htc.org/documentation/overview/references/policy/)
-
-  - OSG Connect may only be used for work relevant to **research and/or
-    education** efforts associated with an academic, government, or
-    non-profit institution in the United States.
-  - Proprietary data, HIPAA, and data with any other privacy concerns
-    **should not** be stored on any OSG Connect filesystems or computed
-    in OSG.
 
 ## Installation
 
