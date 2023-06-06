@@ -20,7 +20,8 @@ jobs:
       
       - uses: actions/checkout@v2
 
-      # needed for ssh package 
+      - uses: r-lib/actions/setup-pandoc@v2
+
       - name: Install libssh on Linux
         if: runner.os == 'Linux'
         run: sudo apt-get install libssh-dev
@@ -32,22 +33,17 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, local::...
+          extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
 
       - name: Show testthat output
         if: always()
         run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
         shell: bash
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
 
   R-CMD-check-failure:
     runs-on: ubuntu-latest
