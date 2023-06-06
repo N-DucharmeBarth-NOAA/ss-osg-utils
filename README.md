@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/N-DucharmeBarth-NOAA/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/N-DucharmeBarth-NOAA/ssgrid/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/PIFSCstockassessments/ssgrid/workflows/R-CMD-check/badge.svg)](https://github.com/PIFSCstockassessments/ssgrid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 <!-- <br> -->
@@ -56,28 +56,28 @@ The *ssgrid* contains functions for:
 
 *ssgrid* is not currently supported on CRAN. You can install the
 development version of *ssgrid* from
-[GitHub](https://github.com/N-DucharmeBarth-NOAA/ssgrid) with:
+[GitHub](https://github.com/PIFSCstockassessments/ssgrid) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("N-DucharmeBarth-NOAA/ssgrid")
+remotes::install_github("PIFSCstockassessments/ssgrid")
 ```
 
 ## Help & Documentation
 
 Please see the *ssgrid*
-[webpage](https://n-ducharmebarth-noaa.github.io/ssgrid/) for more
+[webpage](https://PIFSCstockassessments.github.io/ssgrid/) for more
 information, along with the following articles to get you started:
 
 - [1. Setting up your OSG environment to work with
-  *ssgrid*](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/a_setup_osg.html)
+  *ssgrid*](https://PIFSCstockassessments.github.io/ssgrid/articles/a_setup_osg.html)
 - [2. Set-up a job array to run on
-  OSG.](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/b_model_ensemble.html)
+  OSG.](https://PIFSCstockassessments.github.io/ssgrid/articles/b_model_ensemble.html)
   This article also shows how to combine models in an ensemble using the
   [*ss3diags*](https://github.com/PIFSCstockassessments/ss3diags)
   package.
 - [3. Run diagnostics for a Stock Synthesis model using
-  OSG](https://n-ducharmebarth-noaa.github.io/ssgrid/articles/c_run_diags.html)
+  OSG](https://PIFSCstockassessments.github.io/ssgrid/articles/c_run_diags.html)
 
 ### Base functionality development list
 
