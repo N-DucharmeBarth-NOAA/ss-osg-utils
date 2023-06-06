@@ -18,7 +18,7 @@ jobs:
     steps:
       - run: echo 'The triggering workflow passed'
       
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # needed for ssh package 
       - name: Install libssh on Linux
@@ -31,7 +31,8 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: rcmdcheck
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
 

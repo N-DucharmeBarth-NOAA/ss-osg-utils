@@ -23,7 +23,7 @@ jobs:
     steps:
       - run: echo 'The triggering workflow passed'
       
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # needed for ssh package 
       - name: Install libssh on Linux
@@ -47,7 +47,7 @@ jobs:
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@4.4.1
         with:
           clean: false
           branch: gh-pages
