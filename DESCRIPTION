@@ -1,7 +1,7 @@
 Package: ssgrid
 Title: ssgrid: Stock Sythesis - OpenScienceGrid - utilities
-Date: 2022-09-27
-Version: 0.0.0
+Date: 2023-07-18
+Version: 1.0.0
 Authors@R: c(
 			person(given="Nicholas", family="Ducharme-Barth", email="nicholas.ducharme-barth@noaa.gov", role = c("aut", "cre")),
 			person(given="Megumi", family="Oshima", role = c("ctb")))
